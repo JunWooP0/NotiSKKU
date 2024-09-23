@@ -77,9 +77,6 @@ class _SelectDepartmentState extends State<SelectDepartment> {
               _buildButton(1, "키워드"),
             ],
           ),
-          const SizedBox(
-            height: 16,
-          )
         ],
       ),
     );
