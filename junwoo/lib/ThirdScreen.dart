@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:junwoo/startScreen.dart'; 
 
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
@@ -104,7 +105,13 @@ class ThirdScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // 다음에 설정하기 버튼 동작
+                       // "다음에 설정하기" 버튼을 누르면 FourthScreen으로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StartScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
