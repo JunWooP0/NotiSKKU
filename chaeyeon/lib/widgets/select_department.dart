@@ -123,10 +123,13 @@ class _SelectDepartmentState extends State<SelectDepartment> {
                       horizontal: 20,
                       vertical: 15,
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey[300]!),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color:Color(0xFFD9D9D9),
+                          width: 2,
+                        ),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,8 +137,8 @@ class _SelectDepartmentState extends State<SelectDepartment> {
                         Text(
                           majors[index],
                           style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 17.5,
+                            fontWeight: FontWeight.w400,
                             color: Color(0xFF979797),
                           ),
                         ),
@@ -147,10 +150,24 @@ class _SelectDepartmentState extends State<SelectDepartment> {
               },
             ),
           ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {},
-            child: const Text('설정완료 꾸며야됨'),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 0, 30, 20),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff0b5b42),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 140, vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: const Text(
+                '다음으로',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
           ),
         ],
       ),
