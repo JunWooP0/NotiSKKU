@@ -23,9 +23,9 @@ class _SelectMajorScreenState extends State<SelectMajorScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 60),
+          const SizedBox(height: 80),
           const SelectNotice(),
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
           MajorKeywordButton(
             currentIndex: _currentIndex,
             onIndexChanged: (newIndex) {
