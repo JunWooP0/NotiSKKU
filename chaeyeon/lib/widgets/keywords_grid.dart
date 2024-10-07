@@ -27,7 +27,7 @@ class _KeywordsGridState extends State<KeywordsGrid>{
         crossAxisCount: 3,
         childAspectRatio: 3/2,
         crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+        mainAxisSpacing: 10,
       ),
       children: [
         for (final keyword in keywords)
