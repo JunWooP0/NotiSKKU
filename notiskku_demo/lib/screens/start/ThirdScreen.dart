@@ -17,7 +17,8 @@ class ThirdScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center, // 이미지와 텍스트의 수직 정렬
+                    crossAxisAlignment:
+                        CrossAxisAlignment.center, // 이미지와 텍스트의 수직 정렬
                     children: [
                       const Text(
                         '중요한 소식, 내가 먼저!',
@@ -105,7 +106,7 @@ class ThirdScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                       // "다음에 설정하기" 버튼을 누르면 startScreen으로 이동
+                      // "다음에 설정하기" 버튼을 누르면 startScreen으로 이동
                       Navigator.push(
                         context,
                         MaterialPageRoute(
