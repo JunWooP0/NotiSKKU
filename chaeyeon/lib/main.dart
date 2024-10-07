@@ -1,11 +1,12 @@
+import 'package:chaeyeon/screens/select_major.dart';
 import 'package:flutter/material.dart';
-import 'package:chaeyeon/widgets/select_department.dart';
+
 
 
 void main(){
   runApp(
     const MaterialApp(
-      home: SelectDepartment(),
+      home: SelectMajorScreen(),
     ),
   );
 }
