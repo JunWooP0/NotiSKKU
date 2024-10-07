@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:yejin/data/major_data.dart';
 import 'package:yejin/widgets/search_major.dart';
@@ -24,6 +25,9 @@ class _MajorListState extends State<MajorList> {
   Widget build(BuildContext context) {
     majors.sort((a, b) => a.compareTo(b));
 
+    final screenWidth = MediaQuery.of(context).size.width;
+
+
     return Column(
       children: [
         SearchMajor(
@@ -33,6 +37,7 @@ class _MajorListState extends State<MajorList> {
             });
           },
         ),
+        const SizedBox(height: 10,),
         Expanded(
           child: ListView.builder(
             itemCount: majors.length,
@@ -94,12 +99,14 @@ class _MajorListState extends State<MajorList> {
                     widget.onSelectedMajorChanged(widget.selectedMajor);
                   });
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 35,
-                    vertical: 1,
-                  ),
+                // child: Padding(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 35,
+                //     vertical: 1,
+                //   ),
+                  
                   child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.075), 
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 15,
@@ -134,7 +141,7 @@ class _MajorListState extends State<MajorList> {
                       ],
                     ),
                   ),
-                ),
+                // ),
               );
             },
           ),
