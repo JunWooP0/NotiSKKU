@@ -75,7 +75,6 @@ class _MajorKeywordButtonState extends State<MajorKeywordButton> {
 
 //비율 수정, MediaQuery
 import 'package:flutter/material.dart';
-import 'package:notiskku_demo/screens/start/startScreen.dart';
 
 class MajorKeywordButton extends StatefulWidget {
   const MajorKeywordButton({
