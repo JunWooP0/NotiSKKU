@@ -1,69 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notiskku_demo/widgets/my_notice_button.dart'; // Import the MyNoticeButton widget
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const SizedBox(height: 270),
-            // 이미지
+            SizedBox(height: screenHeight * 0.25), // Adjusted height based on screen height
+            // Image
             Image.asset(
               'assets/images/fourth.png',
-              height: 250, // 이미지 크기 설정
-              width: 250,
+              height: screenHeight * 0.25, // Image size based on screen height
+              width: screenWidth * 0.5, // Image width based on screen width
               fit: BoxFit.contain,
             ),
-            const SizedBox(height: 25),
-            // 텍스트
+            SizedBox(height: screenHeight * 0.03), // Space based on screen height
+            // Text
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '이제 준비가 완료되었습니다!',
-                  style: GoogleFonts.lato( // Lato 폰트 적용
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xff0b5b42), // 텍스트 색상
+                  style: GoogleFonts.lato( // Lato font applied
+                    fontSize: screenWidth * 0.065, // Font size based on screen width
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xff0b5b42), // Text color
                   ),
                 ),
-                const SizedBox(width: 8), // 이모티콘과 간격 조절
-                const Text(
+                const SizedBox(width: 8), // Space between text and emoji
+                Text(
                   '🎉',
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: screenWidth * 0.07, // Emoji size based on screen width
                   ),
                 ),
               ],
             ),
-            // Spacer를 사용하여 버튼을 더 아래로 내리기
-            const Spacer(), 
-            // 버튼
+            // Spacer to push the button down
+            const Spacer(),
+            // Button
             Padding(
-              padding: const EdgeInsets.only(bottom: 60), // 아래 여백 추가
-              child: ElevatedButton(
+              padding: EdgeInsets.only(bottom: screenHeight * 0.05), // Bottom padding based on screen height
+              child: MyNoticeButton(
                 onPressed: () {
-                  // 나의 공지 보러가기 버튼 동작
+                  // Action for navigating to notices
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff0b5b42), // 버튼 색상
-                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  '나의 공지 보러가기',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white, // 버튼 텍스트 색상
-                  ),
-                ),
               ),
             ),
           ],
