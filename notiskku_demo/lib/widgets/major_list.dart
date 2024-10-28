@@ -4,7 +4,7 @@ import 'package:notiskku_demo/widgets/search_major.dart';
 
 class MajorList extends StatefulWidget {
   const MajorList({
-    super.key,
+    super.key, 
     required this.selectedMajor,
     required this.onSelectedMajorChanged,
   });
