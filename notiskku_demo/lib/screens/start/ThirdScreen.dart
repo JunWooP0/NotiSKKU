@@ -7,31 +7,35 @@ class ThirdScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the dimensions of the screen
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 100),
+            SizedBox(height: screenHeight * 0.1), // 10% of screen height
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1), // 10% of screen width
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         '중요한 소식, 내가 먼저!',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: screenWidth * 0.065, // Responsive font size
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 7),
+                      const SizedBox(width: 10),
                       Image.asset(
                         'images/medal.png',
-                        height: 30,
-                        width: 30,
+                        height: screenWidth * 0.075, // Responsive image size
+                        width: screenWidth * 0.075,
                       ),
                     ],
                   ),
@@ -40,14 +44,14 @@ class ThirdScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1), // 10% of screen width
                     child: Text.rich(
                       TextSpan(
                         children: [
                           TextSpan(
                             text: '띠링~ 필요한 알림만 받을 수 있어요.',
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: screenWidth * 0.05, // Responsive font size
                               fontWeight: FontWeight.w700,
                               color: Colors.grey[700],
                             ),
@@ -61,56 +65,47 @@ class ThirdScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 Image.asset(
                   'assets/images/third.png',
-                  height: 275,
-                  width: 275,
+                  height: screenHeight * 0.35, // Responsive image height
+                  width: screenHeight * 0.35, // Responsive image width
                   fit: BoxFit.contain,
                 ),
-                const SizedBox(height: 35),
+                const SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    _buildIndicatorCircle(color: Colors.grey),
                     const SizedBox(width: 15),
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    _buildIndicatorCircle(color: Colors.grey),
                     const SizedBox(width: 15),
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xff0b5b42),
-                      ),
-                    ),
+                    _buildIndicatorCircle(color: const Color(0xff0b5b42)),
                   ],
                 ),
               ],
             ),
-            const Padding(
-              padding: const EdgeInsets.only(bottom: 60.0),
-              child: Column(
-                children: const [
+            Padding(
+              padding: EdgeInsets.only(bottom: screenHeight * 0.07), // Responsive bottom padding
+              child: const Column(
+                children: [
                   SetupSkipButton(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 5),
                   SetMajorButton(),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Helper method to build indicator circles
+  Widget _buildIndicatorCircle({required Color color}) {
+    return Container(
+      width: 10,
+      height: 10,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
       ),
     );
   }

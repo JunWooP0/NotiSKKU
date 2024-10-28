@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:notiskku_demo/widgets/major_list.dart';
 import 'package:notiskku_demo/widgets/keywords_grid.dart';
 import 'package:notiskku_demo/widgets/setup_complete_button.dart';
-
 import 'package:notiskku_demo/widgets/major_keyword_button.dart';
 
 class SelectMajorScreen extends StatefulWidget {
@@ -28,7 +27,7 @@ class _SelectMajorScreenState extends State<SelectMajorScreen> {
       body: Column(
         children: [
           const SizedBox(height: 80),
-          //const SelectNotice(), //😀
+          
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
