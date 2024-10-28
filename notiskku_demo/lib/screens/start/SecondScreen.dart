@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/ThirdScreen.dart';
+import 'package:notiskku_demo/widgets/next_button.dart';
 
 class SecondScreen extends StatelessWidget {
   const SecondScreen({super.key});
@@ -102,27 +103,15 @@ class SecondScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 60.0),
-              child: ElevatedButton(
+              child: NextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const ThirdScreen()), // ThirdScreen으로 이동
+                      builder: (context) => const ThirdScreen(),
+                    ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff0b5b42),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 150, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  '다음으로',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
-                ),
               ),
             ),
           ],
