@@ -12,4 +12,4 @@ class StarredNotifier extends StateNotifier<List<String>>{
 
 final starredProvider = StateNotifierProvider<StarredNotifier, List<String>> ((ref){
   return StarredNotifier();
-});
+}); 

@@ -1,28 +1,25 @@
+import 'package:chaeyeon/providers/major_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chaeyeon/data/major_data.dart';
 import 'package:chaeyeon/widgets/search_major.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MajorList extends StatefulWidget {
+class MajorList extends ConsumerStatefulWidget {
   const MajorList({
     super.key,
-    required this.selectedMajor,
-    required this.onSelectedMajorChanged,
   });
 
-  final List<String> selectedMajor;
-  final Function(List<String>) onSelectedMajorChanged;
-
   @override
-  State<MajorList> createState() => _MajorListState();
+  ConsumerState<MajorList> createState() => _MajorListState();
 }
 
-class _MajorListState extends State<MajorList> {
+class _MajorListState extends ConsumerState<MajorList> {
   String searchText = '';
-  List<String> majors = major.map((major) => major.major).toList();
 
   @override
-  Widget build(BuildContext context) {
-    majors.sort((a, b) => a.compareTo(b));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final majors = ref.watch(majorProvider);
+    majors.sort((a, b) => a.major.compareTo(b.major));
 
     return Column(
       children: [
@@ -38,7 +35,7 @@ class _MajorListState extends State<MajorList> {
             itemCount: majors.length,
             itemBuilder: (BuildContext context, int index) {
               if (searchText.isNotEmpty &&
-                  !majors[index]
+                  !majors[index].major
                       .toLowerCase()
                       .contains(searchText.toLowerCase())) {
                 return const SizedBox.shrink();
@@ -47,7 +44,7 @@ class _MajorListState extends State<MajorList> {
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    if (widget.selectedMajor.contains(majors[index])) {
+                    if (majors.contains(majors[index])) {
                       widget.selectedMajor.remove(majors[index]);
                     } else if (widget.selectedMajor.length < 2) {
                       widget.selectedMajor.add(majors[index]);

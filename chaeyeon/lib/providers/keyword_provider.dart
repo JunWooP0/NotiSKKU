@@ -7,7 +7,7 @@ class KeywordNotifier extends StateNotifier<List<String>>{
   void setKeyword(List<String> keywordList){
     state = keywordList;
   }
-
+ 
   void addKeyword(String keyword) {
     if (!state.contains(keyword)) {
       state = [...state, keyword]; 

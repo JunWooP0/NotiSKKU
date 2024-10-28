@@ -24,4 +24,4 @@ class MajorNotifier extends StateNotifier<List<Major>>{
 
 final majorProvider = StateNotifierProvider<MajorNotifier, List<Major>> ((ref){
   return MajorNotifier();
-});
+}); 
