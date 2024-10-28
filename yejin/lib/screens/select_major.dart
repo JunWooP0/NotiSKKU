@@ -1,7 +1,9 @@
+//select majors and keywords
+
 import 'package:flutter/material.dart';
 import 'package:yejin/widgets/major_list.dart';
 import 'package:yejin/widgets/keywords_grid.dart';
-import 'package:yejin/widgets/next_button.dart';
+import 'package:yejin/widgets/setup_complete_button.dart';
 import 'package:yejin/widgets/select_notice.dart';
 import 'package:yejin/widgets/major_keyword_button.dart';
 
@@ -58,7 +60,7 @@ class _SelectMajorScreenState extends State<SelectMajorScreen> {
                   ),
           ),
           const SizedBox(height: 30),
-          NextButton(
+          SetupCompleteButton(
             selectedMajor: selectedMajor,
             selectedKeyword: selectedKeyword,
           ),
