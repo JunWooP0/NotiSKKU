@@ -75,6 +75,7 @@ flutter:
     - assets/fullstar.png
     - assets/search.png
     - assets/greenlogo.png
+    - assets/fix.png
 
 
   # To add assets to your application, add an assets section, like this:
