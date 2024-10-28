@@ -81,6 +81,15 @@ flutter:
     - assets/images/medal.png
     - assets/images/Rectangle.png
     - assets/images/logo.png
+    - assets/images/notice.png
+    - assets/images/keyword.png
+    - assets/images/bogwan.png
+    - assets/images/calendar.png
+    - assets/images/more.png
+    - assets/images/emptystar.png
+    - assets/images/fullstar.png
+    - assets/images/search.png
+    - assets/images/greenlogo.png
 
   fonts:
     - family: GmarketSans
