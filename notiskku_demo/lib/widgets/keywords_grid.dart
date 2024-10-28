@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/data/keyword_data.dart';
 import 'package:notiskku_demo/models/keyword.dart';
+import 'package:notiskku_demo/services/preference_services.dart';
 
 class KeywordsGrid extends StatefulWidget {
   const KeywordsGrid({
@@ -21,6 +22,27 @@ class KeywordsGrid extends StatefulWidget {
 class _KeywordsGridState extends State<KeywordsGrid> {
   List<String> selectedKeywords = [];
 
+  @override
+  void initState() {
+    super.initState();
+    loadSelectedKeywords(); // 초기화 시 선택된 키워드 불러오기
+  }
+
+  // 저장된 키워드 목록 불러오는 메서드
+  Future<void> loadSelectedKeywords() async {
+    List<String>? loadedKeywords = await getSelectedKeywords();
+    if (loadedKeywords != null) {
+      setState(() {
+        selectedKeywords = loadedKeywords; // 불러온 키워드 목록으로 초기화
+      });
+    }
+  }
+
+  // 선택된 키워드를 저장하는 메서드
+  Future<void> saveSelectedKeywordsToPrefs() async {
+    await saveSelectedKeywords(selectedKeywords);
+  }
+
   void _selectKeyword(BuildContext context, Keyword keyword) {
     setState(() {
       if (selectedKeywords.contains(keyword.keyword)) {
@@ -30,6 +52,7 @@ class _KeywordsGridState extends State<KeywordsGrid> {
       }
 
       widget.onselectedKeywordChanged(widget.selectedKeyword);
+      saveSelectedKeywordsToPrefs(); // 키워드 목록 저장
     });
   }
 

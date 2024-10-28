@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/logo_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Async 초기화를 위해 필요합니다.
   runApp(const MyApp());
 }
 

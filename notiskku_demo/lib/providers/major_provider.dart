@@ -6,16 +6,20 @@ class MajorNotifier extends StateNotifier<List<String>>{ // manages list of stri
   // initial value - empty list
   MajorNotifier() : super([]);
 
-  // adding major
-  // up to 2 constraints
-  void addMajor(Major major){
-
+  // selecting major
+  void selectMajor(Major major){
+    state = [...state];
+    if (state.contains(major.major)){
+      state = state.where( (m) => m != major.major).toList();
+      return;
+    } else if (state.length < 2){
+      state = [...state, major.major];
+      return;
+    } else {
+      throw Exception('Maximum number of majors reached');
+    }
   }
 
-  // deleting major
-  void deleteMajor(Major major){
-
-  }
 }
 
 final majorProvider = StateNotifierProvider<MajorNotifier, List<String>> ((ref) {
