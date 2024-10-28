@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/data/major_data.dart';
+import 'package:notiskku_demo/services/preference_services.dart';
 import 'package:notiskku_demo/widgets/search_major.dart';
 
 class MajorList extends StatefulWidget {
@@ -19,6 +20,28 @@ class MajorList extends StatefulWidget {
 class _MajorListState extends State<MajorList> {
   String searchText = '';
   List<String> majors = major.map((major) => major.major).toList();
+
+  @override
+  void initState() {
+    super.initState();
+    loadSelectedMajors(); // 전공 목록 불러오기
+  }
+
+  // 저장된 전공 목록 불러오는 메서드
+  Future<void> loadSelectedMajors() async {
+    List<String>? loadedMajors = await getSelectedMajors();
+    if (loadedMajors != null) {
+      setState(() {
+        widget.selectedMajor.clear(); // 기존 선택된 전공 목록 초기화
+        widget.selectedMajor.addAll(loadedMajors); // 불러온 전공 목록 추가
+      });
+    }
+  }
+
+  // 전공 목록을 저장하는 메서드
+  Future<void> saveSelectedMajorsToPrefs() async {
+    await saveSelectedMajors(widget.selectedMajor);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +119,9 @@ class _MajorListState extends State<MajorList> {
                       );
                     }
                     widget.onSelectedMajorChanged(widget.selectedMajor);
+                    saveSelectedMajorsToPrefs(); // 전공 목록 저장
                   });
                 },
-                // child: Padding(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 35,
-                //     vertical: 1,
-                //   ),
-                  
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.075), 
                     padding: const EdgeInsets.symmetric(
@@ -149,117 +167,3 @@ class _MajorListState extends State<MajorList> {
     );
   }
 }
-
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:notiskku_demo/data/major_data.dart';
-// import 'package:notiskku_demo/widgets/search_major.dart';
-// import 'package:notiskku_demo/models/major.dart'; // Major 모델을 가져옵니다.
-// import 'package:notiskku_demo/providers/major_provider.dart'; // MajorProvider를 가져옵니다.
-
-// class MajorList extends ConsumerWidget {
-//   const MajorList({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     // 선택된 전공 목록을 가져옵니다.
-//     final selectedMajors = ref.watch(majorProvider.notifier);
-//     final majorNotifier = ref.read(majorProvider.notifier);
-
-//     String searchText = '';
-
-//     return Column(
-//       children: [
-//         SearchMajor(
-//           onSearchChanged: (newText) {
-//             searchText = newText; // searchText 상태를 업데이트합니다.
-//           },
-//         ),
-//         const SizedBox(height: 10,),
-//         Expanded(
-//           child: ListView.builder(
-//             itemCount: major.length,
-//             itemBuilder: (BuildContext context, int index) {
-//               if (searchText.isNotEmpty &&
-//                   !major[index].major.toLowerCase().contains(searchText.toLowerCase())) {
-//                 return const SizedBox.shrink();
-//               }
-
-//               return GestureDetector(
-//                 onTap: () {
-//                   try {
-//                     majorNotifier.selectMajor(major[index]);
-//                   } catch (e) {
-//                     showDialog(
-//                       context: context,
-//                       builder: (BuildContext context) {
-//                         return AlertDialog(
-//                           shape: RoundedRectangleBorder(
-//                             borderRadius: BorderRadius.circular(10),
-//                           ),
-//                           backgroundColor: Colors.white,
-//                           title: const Text(
-//                             '전공 선택 제한',
-//                             style: TextStyle(
-//                               color: Color(0xFF0B5B42),
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                           content: const Text("전공은 최대 두 개까지 선택할 수 있습니다."),
-//                           actions: [
-//                             TextButton(
-//                               onPressed: () {
-//                                 Navigator.of(context).pop();
-//                               },
-//                               child: const Text('확인', style: TextStyle(color: Colors.black)),
-//                             ),
-//                           ],
-//                         );
-//                       },
-//                     );
-//                   }
-//                 },
-//                 child: Container(
-//                   margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.075), 
-//                   padding: const EdgeInsets.symmetric(
-//                     horizontal: 20,
-//                     vertical: 15,
-//                   ),
-//                   decoration: const BoxDecoration(
-//                     border: Border(
-//                       bottom: BorderSide(
-//                         color: Color(0xFFD9D9D9),
-//                         width: 2,
-//                       ),
-//                     ),
-//                   ),
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Text(
-//                         major[index].major,
-//                         style: TextStyle(
-//                           fontSize: 17.5,
-//                           fontWeight: selectedMajors.contains(major[index].major)
-//                               ? FontWeight.bold
-//                               : FontWeight.w400,
-//                           color: selectedMajors.contains(major[index].major)
-//                               ? const Color(0xFF0B5B42)
-//                               : const Color(0xFF979797),
-//                         ),
-//                       ),
-//                       if (selectedMajors.contains(major[index].major))
-//                         const Icon(Icons.check,
-//                             color: Color(0xFF0B5B42), size: 20),
-//                     ],
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
