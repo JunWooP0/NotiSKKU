@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/startScreen.dart';
+import 'package:notiskku_demo/screens/start/select_major.dart';
 
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
@@ -131,6 +132,12 @@ class ThirdScreen extends StatelessWidget {
                   const SizedBox(height: 20), // 버튼 간의 간격 추가
                   ElevatedButton(
                     onPressed: () {
+                       Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SelectMajorScreen(),
+                        ),
+                      );
                       // 학과/키워드 설정하기 버튼 동작
                     },
                     style: ElevatedButton.styleFrom(
