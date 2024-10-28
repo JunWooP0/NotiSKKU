@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/data/major_data.dart';
 import 'package:notiskku_demo/widgets/search_major.dart';
