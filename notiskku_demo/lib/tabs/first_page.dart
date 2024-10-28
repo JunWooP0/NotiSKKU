@@ -1,4 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as parser;
+import 'package:url_launcher/url_launcher.dart';
+
+class Notice {
+  final String title;
+  final String url;
+  final String date;
+  final String views; // 조회수 필드 추가
+
+  Notice({required this.title, required this.url, required this.date, required this.views});
+}
+
+Future<List<Notice>> fetchNotices(String url) async {
+  final response = await http.get(Uri.parse(url));
+
+   if (response.statusCode == 200) {
+    var document = parser.parse(response.body);
+    var noticeElements = document.querySelectorAll('dt.board-list-content-title a');
+    var infoElements = document.querySelectorAll('dd.board-list-content-info ul'); // 날짜 정보 포함된 태그
+
+    List<Notice> notices = [];
+    for (int i = 0; i < noticeElements.length; i++) {
+      var element = noticeElements[i];
+      var infoElement = infoElements[i];
+
+      String title = element.text.trim();
+      String relativeUrl = element.attributes['href'] ?? '';
+      String url = Uri.parse('https://www.skku.edu/skku/campus/skk_comm/notice01.do').resolve(relativeUrl).toString();
+
+      // 날짜 정보 추출
+      var dateElement = infoElement.querySelectorAll('li')[2]; // 세 번째 <li>에서 날짜 추출
+      String date = dateElement.text.trim();
+
+      var viewsElement = infoElement.querySelectorAll('li')[3]; // 네 번째 <li>에서 조회수 추출
+      String views = viewsElement.text.trim().replaceAll('조회수', '').trim();
+
+      notices.add(Notice(title: title, url: url, date: date, views: views));
+    }
+
+    return notices;
+  } else {
+    throw Exception('Failed to load notices');
+  }
+}
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -9,23 +54,40 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  int selectedCategoryIndex = 0; // 선택된 카테고리 인덱스 관리
-  final List<String> categories0 = ['학교', '단과대학', '학과']; // 카테고리 목록
-
-  int selectedIndex = 0; // 선택된 박스의 인덱스
-  // 카테고리 목록
-  final List<String> categories = ['전체', '장학', '취업', '학사', '연구', '생활', '기타'];
-
-  // 별표 상태를 관리할 리스트
-  List<bool> isStarred =
-      List.generate(20, (index) => false); // 5개의 아이템을 false로 초기화
+  int selectedCategoryIndex = 0;
+  final List<String> categories0 = ['학교', '단과대학', '학과'];
+  int selectedIndex = 0;
+  final List<String> categories = ['전체', '학사', '입학', '취업', '채용/모집', '장학', '행사/세미나', '일반'];
+  List<bool> isStarred = [];
+  late Future<List<Notice>> noticesFuture;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 50), () {
-      setState(() {}); // 강제로 초기 렌더링을 한번 더 실행
-    });
+    noticesFuture = fetchNotices(_getCategoryUrl(0)); // 초기화 시 '전체' URL 사용
+  }
+
+  // 카테고리 인덱스에 따라 URL 반환
+  String _getCategoryUrl(int index) {
+    switch (index) {
+      case 1:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice02.do'; // 학사
+      case 2:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice03.do'; // 입학
+      case 3:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice04.do'; // 취업
+      case 4:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice05.do'; // 취업
+      case 5:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice06.do'; // 취업
+      case 6:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice07.do'; // 취업
+      case 7:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice08.do'; // 취업
+      // 필요한 URL 추가
+      default:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice01.do'; // 전체
+    }
   }
 
   @override
@@ -47,7 +109,7 @@ class _FirstPageState extends State<FirstPage> {
                     const Text(
                       '학과 명',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -117,7 +179,8 @@ class _FirstPageState extends State<FirstPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    selectedIndex = index; // 선택된 인덱스 업데이트
+                                    selectedIndex = index;
+                                    noticesFuture = fetchNotices(_getCategoryUrl(index)); // 선택된 카테고리 URL에 따라 Future 업데이트
                                   });
                                 },
                                 child: Container(
@@ -156,59 +219,72 @@ class _FirstPageState extends State<FirstPage> {
           ),
 
           Expanded(
-            child: ListView.builder(
-              itemCount:
-                  isStarred.length + 1, // 항목 수에 1을 추가하여 맨 위에 Divider 공간 추가
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  // 첫 번째 Divider를 추가하는 경우
-                  return Divider(
-                    color: Colors.grey, // 구분선 색상 설정
-                    thickness: 1, // 구분선 두께 설정
-                    indent: 16,
-                    endIndent: 16,
+            child: FutureBuilder<List<Notice>>(
+              future: noticesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Failed to load notices'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No notices available'));
+                } else {
+                  final notices = snapshot.data!;
+                  isStarred = List.generate(notices.length, (index) => false); // 초기 별표 상태 설정
+
+                  return ListView.builder(
+                    itemCount: notices.length,
+                    itemBuilder: (context, index) {
+                      final notice = notices[index];
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              notice.title,
+                              style: TextStyle(fontSize: 17, color: Colors.black),
+                            ),
+                            subtitle: Text('${notice.date} | 조회수: ${notice.views}'), // 날짜와 조회수 함께 표시
+                            trailing: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isStarred[index] = !isStarred[index];
+                                });
+                              },
+                              child: Image.asset(
+                                isStarred[index]
+                                    ? 'assets/images/fullstar.png'
+                                    : 'assets/images/emptystar.png',
+                                width: 24,
+                                height: 24,
+                              ),
+                            ),
+                            onTap: () => _launchURL(notice.url), // URL 열기
+                          ),
+                          Divider(
+                            color: Colors.grey,
+                            thickness: 1,
+                            indent: 16,
+                            endIndent: 16,
+                          ),
+                        ],
+                      );
+                    },
                   );
                 }
-                return Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        '[학사] 2024학년도 도전학기 혁신융합수업 (정규교과) 기말강의평가 시행 안내',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                      subtitle: Text('2024-08-14'),
-                      trailing: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isStarred[index] =
-                                !isStarred[index]; // 누를 때마다 상태를 반전
-                          });
-                        },
-                        child: Image.asset(
-                          isStarred[index]
-                              ? 'assets/images/fullstar.png' // 선택된 경우
-                              : 'assets/images/emptystar.png', // 선택되지 않은 경우
-                          width: 24, // 아이콘 크기
-                          height: 24,
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.grey, // 구분선 색상 설정
-                      thickness: 1, // 구분선 두께 설정
-                      indent: 16, // 좌측 들여쓰기 (title의 시작 위치와 맞춤)
-                      endIndent: 16, // 우측 들여쓰기 (trailing의 끝 위치와 맞춤)
-                    ),
-                  ],
-                );
               },
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
