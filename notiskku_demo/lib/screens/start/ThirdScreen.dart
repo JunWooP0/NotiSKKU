@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notiskku_demo/screens/start/startScreen.dart';
-import 'package:notiskku_demo/screens/start/select_major.dart';
+import 'package:notiskku_demo/widgets/setup_skip_button.dart';
+import 'package:notiskku_demo/widgets/setup_major_button.dart';
 
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
@@ -18,8 +18,7 @@ class ThirdScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: Row(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center, // 이미지와 텍스트의 수직 정렬
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
                         '중요한 소식, 내가 먼저!',
@@ -28,10 +27,10 @@ class ThirdScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 7), // 텍스트와 이미지 사이의 간격 조절
+                      const SizedBox(width: 7),
                       Image.asset(
                         'images/medal.png',
-                        height: 30, // 이미지 크기 설정
+                        height: 30,
                         width: 30,
                       ),
                     ],
@@ -60,7 +59,6 @@ class ThirdScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                // ThirdScreen에 표시할 이미지
                 Image.asset(
                   'assets/images/third.png',
                   height: 275,
@@ -76,7 +74,7 @@ class ThirdScreen extends StatelessWidget {
                       height: 15,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey, // indicator 색상 변경
+                        color: Colors.grey,
                       ),
                     ),
                     const SizedBox(width: 15),
@@ -94,65 +92,20 @@ class ThirdScreen extends StatelessWidget {
                       height: 15,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(0xff0b5b42), // 마지막 indicator 활성화
+                        color: Color(0xff0b5b42),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            Padding(
+            const Padding(
               padding: const EdgeInsets.only(bottom: 60.0),
               child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // "다음에 설정하기" 버튼을 누르면 startScreen으로 이동
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const StartScreen(),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.grey, // "다음에 설정하기" 버튼의 배경색 (회색 예시)
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 125, vertical: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      '다음에 설정하기',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 20), // 버튼 간의 간격 추가
-                  ElevatedButton(
-                    onPressed: () {
-                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SelectMajorScreen(),
-                        ),
-                      );
-                      // 학과/키워드 설정하기 버튼 동작
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff0b5b42),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 100, vertical: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      '학과/키워드 설정하기',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
-                    ),
-                  ),
+                children: const [
+                  SetupSkipButton(),
+                  SizedBox(height: 20),
+                  SetMajorButton(),
                 ],
               ),
             ),
