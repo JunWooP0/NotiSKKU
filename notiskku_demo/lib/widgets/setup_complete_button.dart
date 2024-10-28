@@ -109,6 +109,7 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
 
 
 import 'package:flutter/material.dart';
+import 'package:notiskku_demo/screens/start/startScreen.dart';
 
 class SetupCompleteButton extends StatefulWidget {
   const SetupCompleteButton({
@@ -130,41 +131,42 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: screenHeight * 0.02), // 화면 높이의 2%를 아래쪽 여백으로 설정
+      padding: EdgeInsets.only(bottom: screenHeight * 0.02),
       child: FractionallySizedBox(
-        widthFactor: 0.85, // 버튼이 화면 폭의 85%를 차지하도록 설정
-        // child: AspectRatio(
-        //   aspectRatio: 301 / 43, // 301:43 비율 설정
-          child: ElevatedButton(
-            onPressed: widget.selectedMajor.isNotEmpty
-                ? () {
-                    // 버튼 클릭 시 행동 추가 (예: 다음 페이지로 이동)
-                  }
-                : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.selectedMajor.isNotEmpty
-                  ? const Color(0xFF0B5B42)
-                  : const Color(0xFF979797),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center, // 중앙 정렬
-              children: [
-                SizedBox(height: 11), // 위쪽 여백
-                Text(
-                  '설정완료',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 11), // 아래쪽 여백
-              ],
+        widthFactor: 0.85,
+        child: ElevatedButton(
+          onPressed: widget.selectedMajor.isNotEmpty
+              ? () {
+                  // 버튼 클릭 시 startScreen으로 이동
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartScreen()),
+                  );
+                }
+              : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: widget.selectedMajor.isNotEmpty
+                ? const Color(0xFF0B5B42)
+                : const Color(0xFF979797),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
           ),
-        // ),
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 11),
+              Text(
+                '설정완료',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 11),
+            ],
+          ),
+        ),
       ),
     );
   }
