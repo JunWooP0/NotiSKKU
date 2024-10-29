@@ -1,8 +1,5 @@
-
-
 //비율 수정, MediaQuery
 import 'package:flutter/material.dart';
-
 
 class MajorKeywordButton extends StatefulWidget {
   const MajorKeywordButton({

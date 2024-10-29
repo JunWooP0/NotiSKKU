@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notiskku_demo/screens/home/mainhome.dart'; // 분리된 다섯 번째 페이지
+
 import 'package:notiskku_demo/widgets/my_notice_button.dart'; // Import the MyNoticeButton widget
 
 class StartScreen extends StatelessWidget {
@@ -53,8 +55,27 @@ class StartScreen extends StatelessWidget {
               padding: EdgeInsets.only(bottom: screenHeight * 0.05), // Bottom padding based on screen height
               child: MyNoticeButton(
                 onPressed: () {
-                  // Action for navigating to notices
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MainHomePage(),
+                    ),
+                  );
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff0b5b42), // 버튼 색상
+                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text(
+                  '나의 공지 보러가기',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white, // 버튼 텍스트 색상
+                  ),
+                ),
               ),
             ),
           ],

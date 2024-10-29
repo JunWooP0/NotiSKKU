@@ -1,4 +1,3 @@
-import 'package:chaeyeon/data/keyword_data.dart';
 import 'package:chaeyeon/models/keyword.dart';
 import 'package:flutter/material.dart';
 
