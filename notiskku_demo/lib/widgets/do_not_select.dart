@@ -36,7 +36,7 @@ class _DoNotSelectState extends State<DoNotSelect> {
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: widget.selectedMajor.isEmpty
-                ? const Color(0xB20B5B42)
+                ? const Color(0xFF0B5B42)
                 : const Color(0xFF979797),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
