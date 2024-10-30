@@ -34,6 +34,7 @@ class _KeywordsGridState extends State<KeywordsGrid> {
     if (loadedKeywords != null) {
       setState(() {
         selectedKeywords = loadedKeywords; // 불러온 키워드 목록으로 초기화
+        widget.onselectedKeywordChanged(selectedKeywords);
       });
     }
   }
@@ -51,8 +52,11 @@ class _KeywordsGridState extends State<KeywordsGrid> {
         selectedKeywords.add(keyword.keyword); // 버튼 선택
       }
 
-      widget.onselectedKeywordChanged(widget.selectedKeyword);
-      saveSelectedKeywordsToPrefs(); // 키워드 목록 저장
+      // 콜백을 통해 부모 위젯으로 선택된 키워드 전달
+      widget.onselectedKeywordChanged(selectedKeywords);
+
+      // 선택된 키워드 저장
+      saveSelectedKeywordsToPrefs();
     });
   }
 
@@ -112,5 +116,3 @@ class _KeywordsGridState extends State<KeywordsGrid> {
     );
   }
 }
-
-

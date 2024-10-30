@@ -25,7 +25,7 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
       child: FractionallySizedBox(
         widthFactor: 0.85,
         child: ElevatedButton(
-          onPressed: widget.selectedMajor.isNotEmpty
+          onPressed: (widget.selectedMajor.isNotEmpty && widget.selectedKeyword.isNotEmpty)
               ? () {
                   // 버튼 클릭 시 startScreen으로 이동
                   Navigator.push(
@@ -35,7 +35,7 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
                 }
               : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: widget.selectedMajor.isNotEmpty
+            backgroundColor: (widget.selectedMajor.isNotEmpty && widget.selectedKeyword.isNotEmpty)
                 ? const Color(0xFF0B5B42)
                 : const Color(0xFF979797),
             shape: RoundedRectangleBorder(
