@@ -48,22 +48,14 @@ class StartScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 60), // 아래 여백 추가
               child: ElevatedButton(
                 onPressed: () {
-                  // 나의 공지 보러가기 버튼 동작
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MainHomePage(),
+                    ),
+                  );
+                  
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff0b5b42), // 버튼 색상
-                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  '나의 공지 보러가기',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white, // 버튼 텍스트 색상
-                  ),
-                ),
               ),
             ),
           ],

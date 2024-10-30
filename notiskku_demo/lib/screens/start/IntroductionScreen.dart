@@ -7,6 +7,7 @@ class IntroductionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,11 +60,13 @@ class IntroductionScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Image.asset('assets/images/first.png',
-                    height: 275, // 적절한 이미지 크기 설정
-                    width: 275,
-                    fit: BoxFit.contain),
-                const SizedBox(height: 35),
+                Image.asset(
+                  'assets/images/first.png',
+                  height: screenHeight * 0.35, // Responsive image height
+                  width: screenWidth * 0.35, // Responsive image width
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 30),
                 // Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
