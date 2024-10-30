@@ -95,6 +95,7 @@ flutter:
     - assets/images/fullstar.png
     - assets/images/search.png
     - assets/images/greenlogo.png
+    - assets/images/fix.png
 
   fonts:
     - family: GmarketSans
