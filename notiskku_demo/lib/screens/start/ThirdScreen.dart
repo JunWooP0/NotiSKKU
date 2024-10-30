@@ -88,7 +88,7 @@ class ThirdScreen extends StatelessWidget {
               child: const Column(
                 children: [
                   SetupSkipButton(),
-                  SizedBox(height: 5),
+                  SizedBox(height: 3),
                   SetMajorButton(),
                 ],
               ),
