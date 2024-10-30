@@ -1,4 +1,3 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/data/keyword_data.dart';
 import 'package:notiskku_demo/models/keyword.dart';
@@ -35,6 +34,7 @@ class _KeywordsGridState extends State<KeywordsGrid> {
     if (loadedKeywords != null) {
       setState(() {
         selectedKeywords = loadedKeywords; // 불러온 키워드 목록으로 초기화
+        widget.onselectedKeywordChanged(selectedKeywords);
       });
     }
   }
@@ -52,8 +52,11 @@ class _KeywordsGridState extends State<KeywordsGrid> {
         selectedKeywords.add(keyword.keyword); // 버튼 선택
       }
 
-      widget.onselectedKeywordChanged(widget.selectedKeyword);
-      saveSelectedKeywordsToPrefs(); // 키워드 목록 저장
+      // 콜백을 통해 부모 위젯으로 선택된 키워드 전달
+      widget.onselectedKeywordChanged(selectedKeywords);
+
+      // 선택된 키워드 저장
+      saveSelectedKeywordsToPrefs();
     });
   }
 
@@ -113,121 +116,3 @@ class _KeywordsGridState extends State<KeywordsGrid> {
     );
   }
 }
-
-*/
-
-import 'package:flutter/material.dart';
-import 'package:notiskku_demo/data/keyword_data.dart';
-import 'package:notiskku_demo/models/keyword.dart';
-import 'package:notiskku_demo/services/preference_services.dart';
-import 'package:notiskku_demo/widgets/do_not_select.dart';
-
-class KeywordsGrid extends StatefulWidget {
-  const KeywordsGrid({
-    super.key,
-    required this.selectedKeyword,
-    required this.onselectedKeywordChanged,
-  });
-
-  final List<String> selectedKeyword;
-  final Function(List<String>) onselectedKeywordChanged;
-
-  @override
-  State<StatefulWidget> createState() {
-    return _KeywordsGridState();
-  }
-}
-
-class _KeywordsGridState extends State<KeywordsGrid> {
-  List<String> selectedKeywords = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadSelectedKeywords(); // 초기화 시 선택된 키워드 불러오기
-  }
-
-  // 저장된 키워드 목록 불러오는 메서드
-  Future<void> loadSelectedKeywords() async {
-    List<String>? loadedKeywords = await getSelectedKeywords();
-    if (loadedKeywords != null) {
-      setState(() {
-        selectedKeywords = loadedKeywords; // 불러온 키워드 목록으로 초기화
-      });
-    }
-  }
-
-  // 선택된 키워드를 저장하는 메서드
-  Future<void> saveSelectedKeywordsToPrefs() async {
-    await saveSelectedKeywords(selectedKeywords);
-  }
-
-  void _selectKeyword(BuildContext context, Keyword keyword) {
-    setState(() {
-      if (selectedKeywords.contains(keyword.keyword)) {
-        selectedKeywords.remove(keyword.keyword); // 선택된 버튼 해제
-      } else {
-        selectedKeywords.add(keyword.keyword); // 버튼 선택
-      }
-
-      widget.onselectedKeywordChanged(selectedKeywords); // onSelectedKeywordChanged 콜백에 선택 목록 전달
-      saveSelectedKeywordsToPrefs(); // 키워드 목록 저장
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final buttonWidth = (screenWidth - 80) / 3;
-    final buttonHeight = buttonWidth * (37 / 86);
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          DoNotSelect(selectedMajor: widget.selectedKeyword), // DoNotSelect 추가
-          const SizedBox(height: 10), // DoNotSelect와 Grid 사이 여백
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: (buttonWidth / buttonHeight),
-                crossAxisSpacing: 19,
-                mainAxisSpacing: 30,
-              ),
-              itemCount: keywords.length,
-              itemBuilder: (context, index) {
-                final keywordObj = keywords[index];
-                bool isSelected = selectedKeywords.contains(keywordObj.keyword);
-                return GestureDetector(
-                  onTap: () => _selectKeyword(context, keywordObj),
-                  child: Container(
-                    width: buttonWidth,
-                    height: buttonHeight,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xB20B5B42) : const Color(0x99D9D9D9),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        keywordObj.keyword,
-                        style: TextStyle(
-                          fontSize: buttonWidth * 0.15,
-                          color: isSelected ? const Color(0xFFFFFFFF) : const Color(0xFF979797),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-

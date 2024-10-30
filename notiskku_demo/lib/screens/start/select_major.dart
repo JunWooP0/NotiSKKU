@@ -22,7 +22,6 @@ class _SelectMajorScreenState extends State<SelectMajorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //flutter 기본 화면 레이아웃
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -69,7 +68,7 @@ class _SelectMajorScreenState extends State<SelectMajorScreen> {
                     selectedKeyword: selectedKeyword,
                     onselectedKeywordChanged: (keywords){
                       setState(() {
-                        selectedKeyword = keywords;
+                        selectedKeyword = keywords; // 선택된 키워드 업데이트 
                       });
                     },
                   ),
