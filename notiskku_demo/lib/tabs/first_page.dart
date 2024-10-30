@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notiskku_demo/providers/major_provider.dart';
 
 class Notice {
   final String title;
@@ -45,15 +47,14 @@ Future<List<Notice>> fetchNotices(String url) async {
   }
 }
 
-class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
+class FirstPage extends ConsumerStatefulWidget {
+  const FirstPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _FirstPageState createState() => _FirstPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _FirstPageState extends ConsumerState<FirstPage> {
   int selectedCategoryIndex = 0;
   final List<String> categories0 = ['학교', '단과대학', '학과'];
   int selectedIndex = 0;
@@ -92,6 +93,9 @@ class _FirstPageState extends State<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
+  final selectedMajors = ref.watch(majorProvider);
+
+
     return Scaffold(
       // backgroundColor: Colors.white,
       body: Column(
@@ -106,9 +110,9 @@ class _FirstPageState extends State<FirstPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset('assets/images/greenlogo.png', width: 40),
-                    const Text(
-                      '학과 명',
-                      style: TextStyle(
+                     Text(
+                      selectedMajors.isNotEmpty ? selectedMajors.join(', ') : '학과를 선택하세요',
+                      style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
