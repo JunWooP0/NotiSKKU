@@ -1,5 +1,3 @@
-// 추후 삭제 예정 (사용하지 않는 위젯)
-
 import 'package:flutter/material.dart';
 
 class SelectNotice extends StatelessWidget {
@@ -30,3 +28,4 @@ class SelectNotice extends StatelessWidget {
     );
   }
 }
+

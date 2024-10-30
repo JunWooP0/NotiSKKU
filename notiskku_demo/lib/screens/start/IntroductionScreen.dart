@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notiskku_demo/screens/start/SecondScreen.dart';
+import 'package:notiskku_demo/widgets/next_button.dart';
 
 class IntroductionScreen extends StatelessWidget {
   const IntroductionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    // Get the dimensions of the screen
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -15,32 +21,31 @@ class IntroductionScreen extends StatelessWidget {
             const SizedBox(height: 20), // Optional space for top padding
             Column(
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1), // 10% of screen width
                     child: Text(
                       '성균관대 공지사항 어플',
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: screenWidth * 0.065, // Adjusting font size to be responsive
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 5), // 약간의 간격 추가
-                // 'NotiSKKU를 소개합니다!' 부분의 스타일을 분리하여 적용
+                const SizedBox(height: 5), // Adding space
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1), // 10% of screen width
                     child: Text.rich(
                       TextSpan(
                         children: [
                           TextSpan(
                             text: 'NotiSKKU',
                             style: GoogleFonts.lato(
-                              fontSize: 30,
+                              fontSize: screenWidth * 0.075, // Responsive font size
                               fontWeight: FontWeight.w900,
                               color: const Color(0xff0b5b42),
                             ),
@@ -48,14 +53,14 @@ class IntroductionScreen extends StatelessWidget {
                           TextSpan(
                             text: '를 소개합니다!',
                             style: TextStyle(
-                              fontSize: 25,
+                              fontSize: screenWidth * 0.065, // Responsive font size
                               fontWeight: FontWeight.w700,
                               color: Colors.grey[700],
                             ),
                           ),
                         ],
                       ),
-                      textAlign: TextAlign.left, // 왼쪽 정렬
+                      textAlign: TextAlign.left, // Left alignment
                     ),
                   ),
                 ),
@@ -63,7 +68,7 @@ class IntroductionScreen extends StatelessWidget {
                 Image.asset(
                   'assets/images/first.png',
                   height: screenHeight * 0.35, // Responsive image height
-                  width: screenWidth * 0.35, // Responsive image width
+                  width: screenWidth * 0.6, // Responsive image width
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 30),
@@ -71,63 +76,40 @@ class IntroductionScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xff0b5b42),
-                      ),
-                    ),
+                    _buildIndicatorCircle(color: const Color(0xff0b5b42)),
                     const SizedBox(width: 15),
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    _buildIndicatorCircle(color: Colors.grey),
                     const SizedBox(width: 15),
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    _buildIndicatorCircle(color: Colors.grey),
                   ],
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 60.0),
-              child: ElevatedButton(
+              padding: EdgeInsets.only(bottom: screenHeight * 0.07), // Responsive bottom padding
+              child: NextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const SecondScreen()), // 다음 페이지로 이동
+                    MaterialPageRoute(builder: (context) => const SecondScreen()),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff0b5b42),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 150, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  '다음으로',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
-                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Helper method to build the indicator circles
+  Widget _buildIndicatorCircle({required Color color}) {
+    return Container(
+      width: 10,
+      height: 10,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
       ),
     );
   }
