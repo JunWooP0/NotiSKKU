@@ -31,11 +31,11 @@ class _SearchNoticeWordState extends ConsumerState<SearchNoticeWord> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
       padding: const EdgeInsets.symmetric(horizontal: 15), // 항상 같은 크기
       decoration: BoxDecoration(
         border: Border.all(
-          color: const Color(0xFF0B5B42),
+          color: const Color(0xFF0B5B42), 
           width: 2.5,
         ),
         borderRadius: BorderRadius.circular(15.0),
@@ -77,7 +77,7 @@ class _SearchNoticeWordState extends ConsumerState<SearchNoticeWord> {
             child: const Icon(
               Icons.search,
               size: 37,
-              color: Color(0xFF0B5B42),
+              color: Color(0xFF0B5B42), 
             ),
           ),
         ],
