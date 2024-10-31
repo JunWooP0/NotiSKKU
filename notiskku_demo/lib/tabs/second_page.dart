@@ -100,7 +100,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                         color: Colors.black,
                       ),
                     ),
-                    Image.asset('assets/images/search.png', width: 40),
+                    const SizedBox(width: 40,),
                   ],
                 ),
                 const SizedBox(height: 10),
