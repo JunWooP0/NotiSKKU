@@ -59,7 +59,7 @@ class _MajorListState extends State<MajorList> {
             });
           },
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(height: 10),
         Expanded(
           child: ListView.builder(
             itemCount: majors.length,
