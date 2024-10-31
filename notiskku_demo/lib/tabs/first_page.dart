@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
+import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
@@ -11,16 +12,22 @@ class Notice {
   final String date;
   final String views; // 조회수 필드 추가
 
-  Notice({required this.title, required this.url, required this.date, required this.views});
+  Notice(
+      {required this.title,
+      required this.url,
+      required this.date,
+      required this.views});
 }
 
 Future<List<Notice>> fetchNotices(String url) async {
   final response = await http.get(Uri.parse(url));
 
-   if (response.statusCode == 200) {
+  if (response.statusCode == 200) {
     var document = parser.parse(response.body);
-    var noticeElements = document.querySelectorAll('dt.board-list-content-title a');
-    var infoElements = document.querySelectorAll('dd.board-list-content-info ul'); // 날짜 정보 포함된 태그
+    var noticeElements =
+        document.querySelectorAll('dt.board-list-content-title a');
+    var infoElements = document
+        .querySelectorAll('dd.board-list-content-info ul'); // 날짜 정보 포함된 태그
 
     List<Notice> notices = [];
     for (int i = 0; i < noticeElements.length; i++) {
@@ -29,13 +36,18 @@ Future<List<Notice>> fetchNotices(String url) async {
 
       String title = element.text.trim();
       String relativeUrl = element.attributes['href'] ?? '';
-      String url = Uri.parse('https://www.skku.edu/skku/campus/skk_comm/notice01.do').resolve(relativeUrl).toString();
+      String url =
+          Uri.parse('https://www.skku.edu/skku/campus/skk_comm/notice01.do')
+              .resolve(relativeUrl)
+              .toString();
 
       // 날짜 정보 추출
-      var dateElement = infoElement.querySelectorAll('li')[2]; // 세 번째 <li>에서 날짜 추출
+      var dateElement =
+          infoElement.querySelectorAll('li')[2]; // 세 번째 <li>에서 날짜 추출
       String date = dateElement.text.trim();
 
-      var viewsElement = infoElement.querySelectorAll('li')[3]; // 네 번째 <li>에서 조회수 추출
+      var viewsElement =
+          infoElement.querySelectorAll('li')[3]; // 네 번째 <li>에서 조회수 추출
       String views = viewsElement.text.trim().replaceAll('조회수', '').trim();
 
       notices.add(Notice(title: title, url: url, date: date, views: views));
@@ -58,7 +70,16 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   int selectedCategoryIndex = 0;
   final List<String> categories0 = ['학교', '단과대학', '학과'];
   int selectedIndex = 0;
-  final List<String> categories = ['전체', '학사', '입학', '취업', '채용/모집', '장학', '행사/세미나', '일반'];
+  final List<String> categories = [
+    '전체',
+    '학사',
+    '입학',
+    '취업',
+    '채용/모집',
+    '장학',
+    '행사/세미나',
+    '일반'
+  ];
   List<bool> isStarred = [];
   late Future<List<Notice>> noticesFuture;
 
@@ -93,8 +114,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
-  final selectedMajors = ref.watch(majorProvider);
-
+    final selectedMajors = ref.watch(majorProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -114,12 +134,22 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                     //  Text(
                     //   selectedMajors.isNotEmpty ? selectedMajors.join(', ') : '학과를 선택하세요',
                     //   style: const TextStyle(
-                    //     fontSize: 18, 
+                    //     fontSize: 18,
                     //     fontWeight: FontWeight.bold,
                     //     color: Colors.black,
                     //   ),
                     // ),
-                    Image.asset('assets/images/search.png', width: 40),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchNoticeScreen(), 
+                          ),
+                        );
+                      },
+                      child: Image.asset('assets/images/search.png', width: 40),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -185,11 +215,12 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 onTap: () {
                                   setState(() {
                                     selectedIndex = index;
-                                    noticesFuture = fetchNotices(_getCategoryUrl(index)); // 선택된 카테고리 URL에 따라 Future 업데이트
+                                    noticesFuture = fetchNotices(_getCategoryUrl(
+                                        index)); // 선택된 카테고리 URL에 따라 Future 업데이트
                                   });
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 33, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: selectedIndex == index
@@ -235,7 +266,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   return Center(child: Text('No notices available'));
                 } else {
                   final notices = snapshot.data!;
-                  isStarred = List.generate(notices.length, (index) => false); // 초기 별표 상태 설정
+                  isStarred = List.generate(
+                      notices.length, (index) => false); // 초기 별표 상태 설정
 
                   return ListView.builder(
                     itemCount: notices.length,
@@ -246,9 +278,11 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                           ListTile(
                             title: Text(
                               notice.title,
-                              style: TextStyle(fontSize: 17, color: Colors.black),
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.black),
                             ),
-                            subtitle: Text('${notice.date} | 조회수: ${notice.views}'), // 날짜와 조회수 함께 표시
+                            subtitle: Text(
+                                '${notice.date} | 조회수: ${notice.views}'), // 날짜와 조회수 함께 표시
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
