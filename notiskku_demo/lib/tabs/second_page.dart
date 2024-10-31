@@ -80,6 +80,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Container(

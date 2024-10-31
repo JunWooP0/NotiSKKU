@@ -82,7 +82,7 @@ class _MainHomePageState extends State<MainHomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Color(0xFF0B5B42),
+          selectedItemColor: const Color(0xFF0B5B42),
           unselectedItemColor: Colors.grey,
           iconSize: 55, // 아이콘 크기 설정
           selectedFontSize: 14, // 선택된 항목의 폰트 크기

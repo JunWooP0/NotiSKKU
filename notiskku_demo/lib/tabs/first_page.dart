@@ -110,18 +110,19 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset('assets/images/greenlogo.png', width: 40),
-                     Text(
-                      selectedMajors.isNotEmpty ? selectedMajors.join(', ') : '학과를 선택하세요',
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                    // 여기 피그마에서는 학과명 뜨는거로 해뒀는데 학과명이 길어지면 UI가 구려져서 일단 주석해둠 -채연
+                    //  Text(
+                    //   selectedMajors.isNotEmpty ? selectedMajors.join(', ') : '학과를 선택하세요',
+                    //   style: const TextStyle(
+                    //     fontSize: 18, 
+                    //     fontWeight: FontWeight.bold,
+                    //     color: Colors.black,
+                    //   ),
+                    // ),
                     Image.asset('assets/images/search.png', width: 40),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(categories0.length * 2 - 1, (index) {
@@ -170,7 +171,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                     }
                   }),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(

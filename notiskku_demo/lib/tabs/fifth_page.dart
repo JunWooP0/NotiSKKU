@@ -6,6 +6,7 @@ class FifthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           // 상단 바
@@ -91,7 +92,9 @@ class FifthPage extends StatelessWidget {
   }
 
   Widget _buildListItem(BuildContext context, String title,
-      {bool showFAQPopup = false, bool showInquiryPopup = false, bool showVersionPopup = false}) {
+      {bool showFAQPopup = false,
+      bool showInquiryPopup = false,
+      bool showVersionPopup = false}) {
     return ListTile(
       title: Text(
         title,
@@ -113,105 +116,110 @@ class FifthPage extends StatelessWidget {
     );
   }
 
-  void _showPopup(BuildContext context, String title, {bool versionContent = false}) {
+  void _showPopup(BuildContext context, String title,
+      {bool versionContent = false}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
           content: Container(
             width: double.maxFinite,
             height: 350, // 팝업창의 세로 길이
-            child: SingleChildScrollView( // 스크롤 가능하게 감싸기
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF0B5B42),
-                  ),
-                ),
-                Divider(
-                  color: Color(0xFF0B5B42),
-                  thickness: 3,
-                  height: 20,
-                ),
-
-                SizedBox(height: title == '버전 및 공지' ? 10 : 20), // 조건에 따른 간격 조절
-
-                // SizedBox(height: 20),
-
-                if (versionContent) ...[
-                  _buildVersionContent(),
-                ] else if (title == '문의 / 건의') ...[
+            child: SingleChildScrollView(
+              // 스크롤 가능하게 감싸기
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                   Text(
-                    '문의 및 건의는 아래의 카카오톡 오픈채팅을 이용해 주세요.\n답변은 2~3일 정도 소요될 수 있습니다.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
+                    title,
+                    style: const TextStyle(
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color(0xFF0B5B42),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    color: Colors.grey[300],
-                    child: Text(
-                      'https://open.kakao.com/o/gKYMY3Wg',
+                  const Divider(
+                    color: Color(0xFF0B5B42),
+                    thickness: 3,
+                    height: 20,
+                  ),
+
+                  SizedBox(
+                      height: title == '버전 및 공지' ? 10 : 20), // 조건에 따른 간격 조절
+
+                  // SizedBox(height: 20),
+
+                  if (versionContent) ...[
+                    _buildVersionContent(),
+                  ] else if (title == '문의 / 건의') ...[
+                    const Text(
+                      '문의 및 건의는 아래의 카카오톡 오픈채팅을 이용해 주세요.\n답변은 2~3일 정도 소요될 수 있습니다.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.black54),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                ] else ...[
-                  Image.asset(
-                    'assets/images/fix.png',
-                    width: 80,
-                    height: 80,
-                    color: Colors.grey[400],
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    '서비스 준비 중입니다',
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 18,
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      color: Colors.grey[300],
+                      child: const Text(
+                        'https://open.kakao.com/o/gKYMY3Wg',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                      ),
+                    ),
+                  ] else ...[
+                    Image.asset(
+                      'assets/images/fix.png',
+                      width: 80,
+                      height: 80,
+                      color: Colors.grey[400],
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      '서비스 준비 중입니다',
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                  SizedBox(height: 30),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF0B5B42),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ),
                     ),
                   ),
                 ],
-                SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0B5B42),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
         );
       },
     );
@@ -245,70 +253,69 @@ class FifthPage extends StatelessWidget {
           ),
         ),
         // 첫 번째와 두 번째 공지사항 사이 구분선
-      Divider(
-        color: Colors.grey[600],
-        thickness: 1,
-        height: 20, // 구분선 위 아래 간격
-      ),
-
-      // 두 번째 공지사항
-      Text(
-        '서버 정기점검 (완료)',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-      ),
-      Text(
-        '[2024.06.15]',
-        style: TextStyle(
-          fontSize: 14,
+        Divider(
           color: Colors.grey[600],
+          thickness: 1,
+          height: 20, // 구분선 위 아래 간격
         ),
-      ),
-      SizedBox(height: 5),
-      Text(
-        '- NotiSKKU 서버 점검이 성공적으로 완료되었습니다.',
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-        ),
-      ),
 
-      // 두 번째와 세 번째 공지사항 사이 구분선
-      Divider(
-        color: Colors.grey[600],
-        thickness: 1,
-        height: 20, // 구분선 위 아래 간격
-      ),
-
-      // 세 번째 공지사항
-      Text(
-        '서버 정기점검 (완료)',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
+        // 두 번째 공지사항
+        Text(
+          '서버 정기점검 (완료)',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
-      ),
-      Text(
-        '[2024.04.10]',
-        style: TextStyle(
-          fontSize: 14,
+        Text(
+          '[2024.06.15]',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 5),
+        Text(
+          '- NotiSKKU 서버 점검이 성공적으로 완료되었습니다.',
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        ),
+
+        // 두 번째와 세 번째 공지사항 사이 구분선
+        Divider(
           color: Colors.grey[600],
+          thickness: 1,
+          height: 20, // 구분선 위 아래 간격
         ),
-      ),
-      SizedBox(height: 5),
-      Text(
-        '- NotiSKKU의 점검 작업이 정상적으로 완료되었습니다.',
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-        ),
-      ),
-    ],
-  );
-}
-}
 
+        // 세 번째 공지사항
+        Text(
+          '서버 정기점검 (완료)',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        Text(
+          '[2024.04.10]',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 5),
+        Text(
+          '- NotiSKKU의 점검 작업이 정상적으로 완료되었습니다.',
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
+  }
+}
