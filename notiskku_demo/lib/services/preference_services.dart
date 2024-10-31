@@ -35,3 +35,15 @@ Future<List<String>?> getSavedUrl() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getStringList('savedUrl');
 }
+
+// 최근 검색어 저장
+Future<void> saveSearch(List<String> word) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList('savedSearch', word);
+}
+
+// 최근 검색어 불러오기
+Future <List<String>?> getSavedSearch() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('savedSearch');
+}
