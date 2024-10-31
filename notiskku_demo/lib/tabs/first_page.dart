@@ -97,7 +97,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
 
 
     return Scaffold(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           // 상단 바

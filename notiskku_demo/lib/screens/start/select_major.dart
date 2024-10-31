@@ -30,13 +30,13 @@ class _SelectMajorScreenState extends State<SelectMajorScreen> {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Text(
                 '관심 학과와 키워드를 선택해주세요😀\n(학과는 최대 2개까지 가능)',
                 textAlign: TextAlign.left, //텍스트 왼쪽 정렬
                 style: TextStyle(
                   color: Colors.black.withOpacity(0.8999999761581421),
-                  fontSize: 25,
+                  fontSize: 18,
                   fontFamily: 'GmarketSans',
                   fontWeight: FontWeight.w500,
                 ),

@@ -100,9 +100,9 @@ class _KeywordsGridState extends State<KeywordsGrid> {
                       child: Text(
                         keywordObj.keyword,
                         style: TextStyle(
-                          fontSize: buttonWidth * 0.15, // 버튼 너비에 따라 텍스트 크기 조정
+                          fontSize: buttonWidth * 0.16, // 버튼 너비에 따라 텍스트 크기 조정
                           color: isSelected ? const Color(0xFFFFFFFF) : const Color(0xFF979797),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
