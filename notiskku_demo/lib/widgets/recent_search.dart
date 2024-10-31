@@ -19,6 +19,8 @@ class _RecentSearchState extends ConsumerState<RecentSearch> {
         itemCount: searchedWords.length,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (BuildContext context, int index) {
+          final reversedIndex = searchedWords.length - 1 - index;
+
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             margin: const EdgeInsets.symmetric(vertical: 4),
@@ -30,7 +32,7 @@ class _RecentSearchState extends ConsumerState<RecentSearch> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  searchedWords[index],
+                  searchedWords[reversedIndex],
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -38,7 +40,7 @@ class _RecentSearchState extends ConsumerState<RecentSearch> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    ref.read(searchWordsProvider.notifier).deleteWord(searchedWords[index]);
+                    ref.read(searchWordsProvider.notifier).deleteWord(searchedWords[reversedIndex]);
                   },
                   child: const Icon(
                     Icons.close,
