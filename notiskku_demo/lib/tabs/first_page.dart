@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
+import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -144,7 +145,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SearchNoticeScreen(), 
+                            builder: (context) => SearchNoticeScreen(),
                           ),
                         );
                       },
@@ -266,13 +267,14 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   return Center(child: Text('No notices available'));
                 } else {
                   final notices = snapshot.data!;
-                  isStarred = List.generate(
-                      notices.length, (index) => false); // 초기 별표 상태 설정
+                  //isStarred = List.generate(notices.length, (index) => false); // 초기 별표 상태 설정
 
                   return ListView.builder(
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
+                      final isStarred = ref.watch(starredProvider).contains(notice.url);
+
                       return Column(
                         children: [
                           ListTile(
@@ -286,11 +288,11 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  isStarred[index] = !isStarred[index];
+                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(
-                                isStarred[index]
+                                isStarred
                                     ? 'assets/images/fullstar.png'
                                     : 'assets/images/emptystar.png',
                                 width: 24,
@@ -299,7 +301,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                             ),
                             onTap: () => _launchURL(notice.url), // URL 열기
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.grey,
                             thickness: 1,
                             indent: 16,
