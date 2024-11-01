@@ -1,49 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
-import 'package:url_launcher/url_launcher.dart';
+import 'package:notiskku_demo/models/notice.dart';
+import 'package:notiskku_demo/notice_functions/launch_url.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class Notice {
-  final String title;
-  final String url;
-  final String date;
-  final String views;
-
-  Notice({required this.title, required this.url, required this.date, required this.views});
-}
-
-Future<List<Notice>> fetchNotices(String url) async {
-  final response = await http.get(Uri.parse(url));
-  if (response.statusCode == 200) {
-    var document = parser.parse(response.body);
-    var noticeElements = document.querySelectorAll('dt.board-list-content-title a');
-    var infoElements = document.querySelectorAll('dd.board-list-content-info ul');
-
-    List<Notice> notices = [];
-    for (int i = 0; i < noticeElements.length; i++) {
-      var element = noticeElements[i];
-      var infoElement = infoElements[i];
-
-      String title = element.text.trim();
-      String relativeUrl = element.attributes['href'] ?? '';
-      String url = Uri.parse('https://www.skku.edu/skku/campus/skk_comm/notice01.do').resolve(relativeUrl).toString();
-
-      var dateElement = infoElement.querySelectorAll('li')[2];
-      String date = dateElement.text.trim();
-
-      var viewsElement = infoElement.querySelectorAll('li')[3];
-      String views = viewsElement.text.trim().replaceAll('조회수', '').trim();
-
-      notices.add(Notice(title: title, url: url, date: date, views: views));
-    }
-
-    return notices;
-  } else {
-    throw Exception('Failed to load notices');
-  }
-}
+import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 
 class SecondPage extends ConsumerStatefulWidget {
   const SecondPage({Key? key}) : super(key: key);
@@ -56,20 +18,26 @@ class _SecondPageState extends ConsumerState<SecondPage> {
   int selectedCategoryIndex = 0;
   List<String> categories = [];
   List<bool> isStarred = [];
-  late Future<List<Notice>> noticesFuture;
   bool isEditing = false;
+
+  final NoticeService noticeService = NoticeService(); // NoticeService 인스턴스 생성
+  late Future<List<Notice>> noticesFuture; // Future로 공지사항 리스트를 관리
+  final LaunchUrlService launchUrlService =
+      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
 
   @override
   void initState() {
     super.initState();
     _loadKeywords();
-    noticesFuture = fetchNotices(_getCategoryUrl(0));
+    noticesFuture =
+        noticeService.fetchNotices(_getCategoryUrl(0)); // fetchNotices 호출
   }
 
   Future<void> _loadKeywords() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      categories = prefs.getStringList('selectedKeywords') ?? ['Default Keyword'];
+      categories =
+          prefs.getStringList('selectedKeywords') ?? ['Default Keyword'];
     });
   }
 
@@ -80,6 +48,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Container(
@@ -99,7 +68,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                         color: Colors.black,
                       ),
                     ),
-                    Image.asset('assets/images/search.png', width: 40),
+                    const SizedBox(
+                      width: 40,
+                    )
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -114,24 +85,23 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                         color: Colors.black,
                       ),
                     ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isEditing = !isEditing; // 편집 상태 전환
-                      });
-
-                    },
-                    child: const Text(
-                      '편집',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isEditing = !isEditing; // 편집 상태 전환
+                        });
+                      },
+                      child: const Text(
+                        '편집',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -146,11 +116,13 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                 onTap: () {
                                   setState(() {
                                     selectedCategoryIndex = index;
-                                    noticesFuture = fetchNotices(_getCategoryUrl(index));
+                                    noticesFuture = noticeService.fetchNotices(
+                                        _getCategoryUrl(0)); // fetchNotices 호출
                                   });
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 33, vertical: 4),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 33, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: selectedCategoryIndex == index
                                         ? Color(0xB20B5B42)
@@ -160,7 +132,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                   child: Text(
                                     categories[index],
                                     style: TextStyle(
-                                      color: selectedCategoryIndex == index ? Colors.white : Colors.black,
+                                      color: selectedCategoryIndex == index
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -194,29 +168,38 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
+                      final isStarred = ref.watch(starredProvider).contains(notice.url);
+                      
                       return Column(
                         children: [
                           ListTile(
                             title: Text(
                               notice.title,
-                              style: TextStyle(fontSize: 17, color: Colors.black),
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.black),
                             ),
-                            subtitle: Text('${notice.date} | 조회수: ${notice.views}'),
+                            subtitle:
+                                Text('${notice.date} | 조회수: ${notice.views}'),
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  isStarred[index] = !isStarred[index];
+                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(
-                                isStarred[index] ? 'assets/images/fullstar.png' : 'assets/images/emptystar.png',
+                                isStarred
+                                    ? 'assets/images/fullstar.png'
+                                    : 'assets/images/emptystar.png',
                                 width: 24,
                                 height: 24,
                               ),
                             ),
-                            onTap: () => _launchURL(notice.url),
+                            onTap: () async {
+                              await launchUrlService.launchURL(
+                                  notice.url); // LaunchUrlService를 사용하여 URL 열기
+                            },
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.grey,
                             thickness: 1,
                             indent: 16,
@@ -234,13 +217,13 @@ class _SecondPageState extends ConsumerState<SecondPage> {
       ),
     );
   }
-
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 }
+//   void _launchURL(String url) async {
+//     final Uri uri = Uri.parse(url);
+//     if (await canLaunchUrl(uri)) {
+//       await launchUrl(uri, mode: LaunchMode.externalApplication);
+//     } else {
+//       throw 'Could not launch $url';
+//     }
+//   }
+// }

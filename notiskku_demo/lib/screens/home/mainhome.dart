@@ -31,12 +31,12 @@ class _MainHomePageState extends State<MainHomePage> {
   int _selectedIndex = 0;
 
   // 각 인덱스에 맞는 페이지를 정의합니다.
-  static List<Widget> _pages = <Widget>[
-    FirstPage(),
-    SecondPage(),
-    ThirdPage(),
-    FourthPage(),
-    FifthPage(),
+  static final List<Widget> _pages = <Widget>[
+    const FirstPage(),
+    const SecondPage(),
+    const ThirdPage(),
+    const FourthPage(),
+    const FifthPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -48,6 +48,7 @@ class _MainHomePageState extends State<MainHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _pages[_selectedIndex], // 선택한 페이지가 여기에 표시됩니다.
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(bottom: 10), // 네비게이션 바를 살짝 위로 올리기 위한 패딩
@@ -81,7 +82,7 @@ class _MainHomePageState extends State<MainHomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Color(0xFF0B5B42),
+          selectedItemColor: const Color(0xFF0B5B42),
           unselectedItemColor: Colors.grey,
           iconSize: 55, // 아이콘 크기 설정
           selectedFontSize: 14, // 선택된 항목의 폰트 크기

@@ -34,7 +34,7 @@ class ThirdScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Image.asset(
-                        'images/medal.png',
+                        'assets/images/medal.png',
                         height: screenWidth * 0.075, // Responsive image size
                         width: screenWidth * 0.075,
                       ),

@@ -35,7 +35,7 @@ dependencies:
   http: ^1.0.0 
   html: ^0.15.0
 
-  url_launcher: ^6.0.0 
+  url_launcher: ^6.3.1 
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -96,6 +96,8 @@ flutter:
     - assets/images/search.png
     - assets/images/greenlogo.png
     - assets/images/fix.png
+    - assets/images/go_back.png
+    - assets/images/to_be_implemented.png
 
   fonts:
     - family: GmarketSans

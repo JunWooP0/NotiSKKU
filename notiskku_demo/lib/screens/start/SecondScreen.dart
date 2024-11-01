@@ -34,7 +34,7 @@ class SecondScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 10), // Space between text and image
                       Image.asset(
-                        'images/magic_wand.png',
+                        'assets/images/magic_wand.png',
                         height: screenWidth * 0.075, // Responsive image size
                         width: screenWidth * 0.075,
                       ),
