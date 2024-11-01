@@ -10,3 +10,4 @@ class Notice {
       required this.date,
       required this.views});
 }
+
