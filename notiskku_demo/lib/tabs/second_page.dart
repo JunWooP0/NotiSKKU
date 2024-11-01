@@ -3,6 +3,7 @@ import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 
@@ -167,6 +168,8 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
+                      final isStarred = ref.watch(starredProvider).contains(notice.url);
+                      
                       return Column(
                         children: [
                           ListTile(
@@ -180,11 +183,11 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  isStarred[index] = !isStarred[index];
+                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(
-                                isStarred[index]
+                                isStarred
                                     ? 'assets/images/fullstar.png'
                                     : 'assets/images/emptystar.png',
                                 width: 24,
