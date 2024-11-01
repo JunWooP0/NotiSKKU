@@ -70,7 +70,8 @@ class _SearchNoticeWordState extends ConsumerState<SearchNoticeWord> {
           ),
           GestureDetector(
             onTap: (){
-
+              _titleController.clear();
+              widget.onSearchChanged('');
             },
             child: Image.asset('assets/images/erase.png'),
           ),
