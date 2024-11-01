@@ -98,6 +98,8 @@ flutter:
     - assets/images/fix.png
     - assets/images/go_back.png
     - assets/images/to_be_implemented.png
+    - assets/images/erase.png
+  
 
   fonts:
     - family: GmarketSans

@@ -69,6 +69,13 @@ class _SearchNoticeWordState extends ConsumerState<SearchNoticeWord> {
             ),
           ),
           GestureDetector(
+            onTap: (){
+
+            },
+            child: Image.asset('assets/images/erase.png'),
+          ),
+          const SizedBox(width: 5,),
+          GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
               ref
