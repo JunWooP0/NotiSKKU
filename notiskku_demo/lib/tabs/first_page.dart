@@ -1,64 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
+import 'package:notiskku_demo/models/notice.dart';
+import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
 
-class Notice {
-  final String title;
-  final String url;
-  final String date;
-  final String views; // 조회수 필드 추가
-
-  Notice(
-      {required this.title,
-      required this.url,
-      required this.date,
-      required this.views});
-}
-
-Future<List<Notice>> fetchNotices(String url) async {
-  final response = await http.get(Uri.parse(url));
-
-  if (response.statusCode == 200) {
-    var document = parser.parse(response.body);
-    var noticeElements =
-        document.querySelectorAll('dt.board-list-content-title a');
-    var infoElements = document
-        .querySelectorAll('dd.board-list-content-info ul'); // 날짜 정보 포함된 태그
-
-    List<Notice> notices = [];
-    for (int i = 0; i < noticeElements.length; i++) {
-      var element = noticeElements[i];
-      var infoElement = infoElements[i];
-
-      String title = element.text.trim();
-      String relativeUrl = element.attributes['href'] ?? '';
-      String url =
-          Uri.parse('https://www.skku.edu/skku/campus/skk_comm/notice01.do')
-              .resolve(relativeUrl)
-              .toString();
-
-      // 날짜 정보 추출
-      var dateElement =
-          infoElement.querySelectorAll('li')[2]; // 세 번째 <li>에서 날짜 추출
-      String date = dateElement.text.trim();
-
-      var viewsElement =
-          infoElement.querySelectorAll('li')[3]; // 네 번째 <li>에서 조회수 추출
-      String views = viewsElement.text.trim().replaceAll('조회수', '').trim();
-
-      notices.add(Notice(title: title, url: url, date: date, views: views));
-    }
-
-    return notices;
-  } else {
-    throw Exception('Failed to load notices');
-  }
-}
 
 class FirstPage extends ConsumerStatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -83,11 +31,13 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   ];
   List<bool> isStarred = [];
   late Future<List<Notice>> noticesFuture;
+  final NoticeService noticeService = NoticeService(); // NoticeService 인스턴스 생성
 
   @override
   void initState() {
     super.initState();
-    noticesFuture = fetchNotices(_getCategoryUrl(0)); // 초기화 시 '전체' URL 사용
+    noticesFuture =
+        noticeService.fetchNotices(_getCategoryUrl(0)); // fetchNotices 호출
   }
 
   // 카테고리 인덱스에 따라 URL 반환
@@ -216,8 +166,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 onTap: () {
                                   setState(() {
                                     selectedIndex = index;
-                                    noticesFuture = fetchNotices(_getCategoryUrl(
-                                        index)); // 선택된 카테고리 URL에 따라 Future 업데이트
+                                    //noticesFuture = fetchNotices(_getCategoryUrl(index)); // 선택된 카테고리 URL에 따라 Future 업데이트
+                                    noticesFuture = noticeService.fetchNotices(_getCategoryUrl(index));
                                   });
                                 },
                                 child: Container(
@@ -262,7 +212,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Failed to load notices'));
+                  print('Error: ${snapshot.error}'); // 오류 메시지 출력
+                  return Center(child: Text('Failed to load notices -- second case'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(child: Text('No notices available'));
                 } else {
