@@ -70,6 +70,7 @@ class _SearchNoticeWordState extends ConsumerState<SearchNoticeWord> {
           ),
           GestureDetector(
             onTap: () {
+              FocusScope.of(context).unfocus();
               ref
                   .read(searchWordsProvider.notifier)
                   .searchWord(_titleController.text);
