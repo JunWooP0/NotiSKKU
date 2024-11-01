@@ -100,7 +100,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(width: 40,),
+                    const SizedBox(width: 40,)
                   ],
                 ),
                 const SizedBox(height: 10),
