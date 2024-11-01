@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notiskku_demo/data/keyword_data.dart';
 import 'package:notiskku_demo/models/keyword.dart';
 import 'package:notiskku_demo/services/preference_services.dart';
+import 'package:notiskku_demo/widgets/do_not_select.dart';
 
 class KeywordsGrid extends StatefulWidget {
   const KeywordsGrid({
@@ -21,6 +22,7 @@ class KeywordsGrid extends StatefulWidget {
 
 class _KeywordsGridState extends State<KeywordsGrid> {
   List<String> selectedKeywords = [];
+  bool _isDoNotSelect = false; // Track "Do Not Select" state
 
   @override
   void initState() {
@@ -51,11 +53,23 @@ class _KeywordsGridState extends State<KeywordsGrid> {
       } else {
         selectedKeywords.add(keyword.keyword); // 버튼 선택
       }
+      // Reset "Do Not Select" state if a keyword is chosen
+      _isDoNotSelect = false;
 
-      // 콜백을 통해 부모 위젯으로 선택된 키워드 전달
+
       widget.onselectedKeywordChanged(selectedKeywords);
+      saveSelectedKeywordsToPrefs();
+    });
+  }
 
-      // 선택된 키워드 저장
+  // Callback to handle "Do Not Select" button press
+  void _toggleDoNotSelect() {
+    setState(() {
+      _isDoNotSelect = !_isDoNotSelect;
+      if (_isDoNotSelect) {
+        selectedKeywords.clear(); // Clear any selected keywords
+      }
+      widget.onselectedKeywordChanged(selectedKeywords);
       saveSelectedKeywordsToPrefs();
     });
   }
@@ -72,7 +86,11 @@ class _KeywordsGridState extends State<KeywordsGrid> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 20), // 상단 여백 추가
+          DoNotSelect(
+            onPressed: _toggleDoNotSelect, // Pass toggle callback
+            isSelected: _isDoNotSelect, // Reflect selection state
+          ),
+          const SizedBox(height: 10), 
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075), // 좌우 7.5% 여백 설정
