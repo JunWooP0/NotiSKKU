@@ -99,6 +99,13 @@ flutter:
     - assets/images/go_back.png
     - assets/images/to_be_implemented.png
     - assets/images/erase.png
+    - assets/images/first_fix.png
+    - assets/images/second_fix.png
+    - assets/images/third_fix.png
+    - assets/images/fourth_fix.png
+    - assets/images/greenlogo_fix.png
+    - assets/images/whitelogo_fix.png
+
   
 
   fonts:
