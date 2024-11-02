@@ -22,7 +22,8 @@ class StartScreen extends StatelessWidget {
             SizedBox(height: screenHeight * 0.25), // Adjusted height based on screen height
             // Image
             Image.asset(
-              'assets/images/fourth.png',
+              // 'assets/images/fourth.png',
+              'assets/images/fourth_fix.png',
               height: screenHeight * 0.25, // Image size based on screen height
               width: screenWidth * 0.5, // Image width based on screen width
               fit: BoxFit.contain,

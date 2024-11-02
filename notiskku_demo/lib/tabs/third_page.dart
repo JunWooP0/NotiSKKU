@@ -40,7 +40,8 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'assets/images/greenlogo.png',
+                  // 'assets/images/greenlogo.png',
+                  'assets/images/greenlogo_fix.png',
                   width: 40,
                 ),
                 const Text(

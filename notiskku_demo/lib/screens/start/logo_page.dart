@@ -34,7 +34,8 @@ class _LogoPageState extends State<LogoPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo.png',
+              //'assets/images/logo.png',
+              'assets/images/whitelogo_fix.png',
               width: screenWidth * 0.8, // Set width as 80% of screen width
               height: screenHeight * 0.25, // Set height as 25% of screen height
               fit: BoxFit.contain,

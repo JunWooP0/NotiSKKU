@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
 
-
 class FirstPage extends ConsumerStatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
 
@@ -80,7 +79,11 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset('assets/images/greenlogo.png', width: 40),
+                    Image.asset(
+                      // 'assets/images/greenlogo.png',
+                      'assets/images/greenlogo_fix.png',
+                      width: 40,
+                    ),
                     // 여기 피그마에서는 학과명 뜨는거로 해뒀는데 학과명이 길어지면 UI가 구려져서 일단 주석해둠 -채연
                     //  Text(
                     //   selectedMajors.isNotEmpty ? selectedMajors.join(', ') : '학과를 선택하세요',
@@ -167,7 +170,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                   setState(() {
                                     selectedIndex = index;
                                     //noticesFuture = fetchNotices(_getCategoryUrl(index)); // 선택된 카테고리 URL에 따라 Future 업데이트
-                                    noticesFuture = noticeService.fetchNotices(_getCategoryUrl(index));
+                                    noticesFuture = noticeService
+                                        .fetchNotices(_getCategoryUrl(index));
                                   });
                                 },
                                 child: Container(
@@ -213,7 +217,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   print('Error: ${snapshot.error}'); // 오류 메시지 출력
-                  return Center(child: Text('Failed to load notices -- second case'));
+                  return Center(
+                      child: Text('Failed to load notices -- second case'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(child: Text('No notices available'));
                 } else {
@@ -224,7 +229,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred = ref.watch(starredProvider).contains(notice.url);
+                      final isStarred =
+                          ref.watch(starredProvider).contains(notice.url);
 
                       return Column(
                         children: [
@@ -239,7 +245,9 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(

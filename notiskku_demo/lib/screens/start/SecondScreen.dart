@@ -65,7 +65,8 @@ class SecondScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 Image.asset(
-                  'assets/images/second.png',
+                  // 'assets/images/second.png',
+                  'assets/images/second_fix.png',
                   height: screenHeight * 0.35, // Responsive image height
                   width: screenHeight * 0.35, // Responsive image width
                   fit: BoxFit.contain,

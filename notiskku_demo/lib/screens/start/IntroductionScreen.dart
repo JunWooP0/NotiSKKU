@@ -66,7 +66,8 @@ class IntroductionScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 Image.asset(
-                  'assets/images/first.png',
+                  // 'assets/images/first.png',
+                  'assets/images/first_fix.png',
                   height: screenHeight * 0.35, // Responsive image height
                   width: screenWidth * 0.6, // Responsive image width
                   fit: BoxFit.contain,

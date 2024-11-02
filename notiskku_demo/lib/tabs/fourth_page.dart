@@ -18,7 +18,8 @@ class FourthPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset(
-                      'assets/images/greenlogo.png',
+                      // 'assets/images/greenlogo.png',
+                      'assets/images/greenlogo_fix.png',
                       width: 40,
                     ),
                     const Text(

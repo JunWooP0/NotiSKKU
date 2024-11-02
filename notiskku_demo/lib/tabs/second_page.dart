@@ -59,7 +59,11 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset('assets/images/greenlogo.png', width: 40),
+                    Image.asset(
+                      // 'assets/images/greenlogo.png',
+                      'assets/images/greenlogo_fix.png',
+                      width: 40,
+                    ),
                     const Text(
                       '키워드',
                       style: TextStyle(
@@ -168,8 +172,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred = ref.watch(starredProvider).contains(notice.url);
-                      
+                      final isStarred =
+                          ref.watch(starredProvider).contains(notice.url);
+
                       return Column(
                         children: [
                           ListTile(
@@ -183,7 +188,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(

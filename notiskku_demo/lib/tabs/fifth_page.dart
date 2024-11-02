@@ -17,7 +17,11 @@ class FifthPage extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Image.asset('assets/images/greenlogo.png', width: 40),
+                  child: Image.asset(
+                    // 'assets/images/greenlogo.png',
+                    'assets/images/greenlogo_fix.png',
+                    width: 40,
+                  ),
                 ),
                 Align(
                   alignment: Alignment.center,
