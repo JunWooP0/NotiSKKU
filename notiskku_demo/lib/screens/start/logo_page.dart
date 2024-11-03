@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/IntroductionScreen.dart';
+import 'package:notiskku_demo/screens/start/refactored_introScreen.dart';
 
 class LogoPage extends StatefulWidget {
   const LogoPage({super.key});
@@ -16,7 +17,8 @@ class _LogoPageState extends State<LogoPage> {
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const IntroductionScreen()),
+        // MaterialPageRoute(builder: (context) => const IntroductionScreen()),
+        MaterialPageRoute(builder: (context) => const ReIntroductionScreen()),
       );
     });
   }
