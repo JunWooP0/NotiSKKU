@@ -6,36 +6,26 @@ class FifthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/greenlogo.png', width: 40),
+        ),
+        title: const Text(
+          '더보기',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true, // 타이틀 중앙 정렬
+      ),
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // 상단 바
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(10.0),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Image.asset('assets/images/greenlogo.png', width: 40),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0), // 텍스트만 약간 아래로 이동
-                    child: const Text(
-                      '더보기',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 10.0),

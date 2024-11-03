@@ -31,42 +31,47 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
     final starredUrls = ref.watch(starredProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/greenlogo.png', width: 40),
+        ),
+        title: const Text(
+          '공지보관함',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true, // 타이틀 중앙 정렬
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  editMode = true;
+                });
+              },
+              child: const Text(
+                '편집',
+               style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),          
+        ],
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(10.0), // Padding을 Container로 이동
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/images/greenlogo.png',
-                  width: 40,
-                ),
-                const Text(
-                  '공지보관함',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      editMode = true;
-                    });
-                  },
-                  child: const Text(
-                    '편집',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 10),
             Expanded(
               child: starredUrls.isEmpty

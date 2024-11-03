@@ -68,7 +68,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
     final selectedMajors = ref.watch(majorProvider);
 
     return Scaffold(
-              appBar: AppBar(
+          appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
           leading: Padding(
@@ -95,7 +95,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
             ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 10.0),
+              padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 onTap: () {
                 Navigator.push(
@@ -109,6 +109,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
             ),
           ),
         ],
+        centerTitle: true, // 타이틀 중앙 정렬
       ),
       backgroundColor: Colors.white,
       body: Column(

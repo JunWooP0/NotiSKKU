@@ -48,6 +48,23 @@ class _SecondPageState extends ConsumerState<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/greenlogo.png', width: 40),
+        ),
+        title: const Text(
+          '키워드',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true, // 타이틀 중앙 정렬
+      ),
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -56,24 +73,6 @@ class _SecondPageState extends ConsumerState<SecondPage> {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset('assets/images/greenlogo.png', width: 40),
-                    const Text(
-                      '키워드',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 40,
-                    )
-                  ],
-                ),
-                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -168,8 +167,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred = ref.watch(starredProvider).contains(notice.url);
-                      
+                      final isStarred =
+                          ref.watch(starredProvider).contains(notice.url);
+
                       return Column(
                         children: [
                           ListTile(
@@ -183,7 +183,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(
