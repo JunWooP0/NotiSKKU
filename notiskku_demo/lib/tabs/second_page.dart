@@ -51,7 +51,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 40,),
+          const SizedBox(height: 50,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),

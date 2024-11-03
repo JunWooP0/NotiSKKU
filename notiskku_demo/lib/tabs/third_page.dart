@@ -36,7 +36,7 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
         padding: const EdgeInsets.all(10.0), // Padding을 Container로 이동
         child: Column(
           children: [
-            const SizedBox(height: 40,),
+            const SizedBox(height: 50,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -9,7 +9,7 @@ class FifthPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 40,),
+          const SizedBox(height: 50,),
           // 상단 바
           Container(
             color: Colors.white,
