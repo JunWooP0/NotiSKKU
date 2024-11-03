@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
+import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,6 +32,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   List<bool> isStarred = [];
   late Future<List<Notice>> noticesFuture;
   final NoticeService noticeService = NoticeService(); // NoticeService 인스턴스 생성
+  final LaunchUrlService launchUrlService =
+      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
 
   @override
   void initState() {
@@ -258,7 +261,11 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 height: 24,
                               ),
                             ),
-                            onTap: () => _launchURL(notice.url), // URL 열기
+                            onTap: () async {
+                              await launchUrlService.launchURL(
+                                  notice.url); // LaunchUrlService를 사용하여 URL 열기
+                            },
+                            //onTap: () => _launchURL(notice.url), // URL 열기
                           ),
                           const Divider(
                             color: Colors.grey,
@@ -279,12 +286,12 @@ class _FirstPageState extends ConsumerState<FirstPage> {
     );
   }
 
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // void _launchURL(String url) async {
+  //   final Uri uri = Uri.parse(url);
+  //   if (await canLaunchUrl(uri)) {
+  //     await launchUrl(uri, mode: LaunchMode.externalApplication);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 }
