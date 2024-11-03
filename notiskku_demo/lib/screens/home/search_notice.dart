@@ -25,6 +25,7 @@ class _SearchNoticeScreenState extends ConsumerState<SearchNoticeScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          const SizedBox(height: 40,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10),

@@ -51,6 +51,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          const SizedBox(height: 40,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),
@@ -181,7 +182,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             title: Text(
                               notice.title,
                               style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
+                                  TextStyle(fontSize: 15, color: Colors.black),
                             ),
                             subtitle:
                                 Text('${notice.date} | 조회수: ${notice.views}'),
