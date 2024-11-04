@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:notiskku_demo/screens/start/refactored_startScreen.dart';
 import 'package:notiskku_demo/screens/start/startScreen.dart';
 
 /*
@@ -48,8 +49,11 @@ class SetupSkipButton extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
+              // MaterialPageRoute(
+              //   builder: (context) => const StartScreen(),
+              // ),
               MaterialPageRoute(
-                builder: (context) => const StartScreen(),
+                builder: (context) => const ReStartScreen(),
               ),
             );
           },

@@ -51,7 +51,7 @@ class _MainHomePageState extends State<MainHomePage> {
       backgroundColor: Colors.white,
       body: _pages[_selectedIndex], // 선택한 페이지가 여기에 표시됩니다.
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(bottom: 10), // 네비게이션 바를 살짝 위로 올리기 위한 패딩
+        //padding: const EdgeInsets.only(bottom: 10), // 네비게이션 바를 살짝 위로 올리기 위한 패딩
         decoration: const BoxDecoration(
           color: Colors.white, // 회색 공간 대신 네비게이션 바와 동일한 배경색 사용
         ),

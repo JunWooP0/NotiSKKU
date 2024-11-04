@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
+import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
-
 
 class FirstPage extends ConsumerStatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -32,6 +32,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   List<bool> isStarred = [];
   late Future<List<Notice>> noticesFuture;
   final NoticeService noticeService = NoticeService(); // NoticeService 인스턴스 생성
+  final LaunchUrlService launchUrlService =
+      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
 
   @override
   void initState() {
@@ -114,6 +116,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          const SizedBox(height: 50,),
           // 상단 바
           Container(
             color: Colors.white,
@@ -185,7 +188,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                   setState(() {
                                     selectedIndex = index;
                                     //noticesFuture = fetchNotices(_getCategoryUrl(index)); // 선택된 카테고리 URL에 따라 Future 업데이트
-                                    noticesFuture = noticeService.fetchNotices(_getCategoryUrl(index));
+                                    noticesFuture = noticeService
+                                        .fetchNotices(_getCategoryUrl(index));
                                   });
                                 },
                                 child: Container(
@@ -231,7 +235,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   print('Error: ${snapshot.error}'); // 오류 메시지 출력
-                  return Center(child: Text('Failed to load notices -- second case'));
+                  return Center(
+                      child: Text('Failed to load notices -- second case'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(child: Text('No notices available'));
                 } else {
@@ -242,7 +247,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred = ref.watch(starredProvider).contains(notice.url);
+                      final isStarred =
+                          ref.watch(starredProvider).contains(notice.url);
 
                       return Column(
                         children: [
@@ -250,14 +256,16 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                             title: Text(
                               notice.title,
                               style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
+                                  TextStyle(fontSize: 15, color: Colors.black),
                             ),
                             subtitle: Text(
                                 '${notice.date} | 조회수: ${notice.views}'), // 날짜와 조회수 함께 표시
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(
@@ -268,7 +276,11 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 height: 24,
                               ),
                             ),
-                            onTap: () => _launchURL(notice.url), // URL 열기
+                            onTap: () async {
+                              await launchUrlService.launchURL(
+                                  notice.url); // LaunchUrlService를 사용하여 URL 열기
+                            },
+                            //onTap: () => _launchURL(notice.url), // URL 열기
                           ),
                           const Divider(
                             color: Colors.grey,
@@ -289,12 +301,12 @@ class _FirstPageState extends ConsumerState<FirstPage> {
     );
   }
 
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // void _launchURL(String url) async {
+  //   final Uri uri = Uri.parse(url);
+  //   if (await canLaunchUrl(uri)) {
+  //     await launchUrl(uri, mode: LaunchMode.externalApplication);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 }

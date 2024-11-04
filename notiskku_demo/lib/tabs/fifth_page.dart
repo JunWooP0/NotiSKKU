@@ -73,7 +73,7 @@ class FifthPage extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 15,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.grey[600],
         ),
@@ -89,7 +89,7 @@ class FifthPage extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-          fontSize: 21,
+          fontSize: 19,
           color: Colors.black,
         ),
       ),

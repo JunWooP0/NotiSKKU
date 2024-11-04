@@ -68,6 +68,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          const SizedBox(height: 50,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),
@@ -170,19 +171,25 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                       final isStarred =
                           ref.watch(starredProvider).contains(notice.url);
 
+                      final isStarred =
+                          ref.watch(starredProvider).contains(notice.url);
+
                       return Column(
                         children: [
                           ListTile(
                             title: Text(
                               notice.title,
                               style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
+                                  TextStyle(fontSize: 15, color: Colors.black),
                             ),
                             subtitle:
                                 Text('${notice.date} | 조회수: ${notice.views}'),
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleUrl(notice.url);
                                   ref
                                       .read(starredProvider.notifier)
                                       .toggleUrl(notice.url);
