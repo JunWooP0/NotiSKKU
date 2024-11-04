@@ -1,8 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart'; // LaunchUrlService import 추가
+import 'package:url_launcher/url_launcher.dart';
 
 class FifthPage extends StatelessWidget {
   const FifthPage({super.key});
+
+  Future<void> _openSettings() async {
+    if (Platform.isAndroid) {
+      // Android 알림 설정 화면으로 이동
+      const url = 'app-settings:';
+      if (await canLaunch(url)) {
+        await launch(url);
+      }
+    } else if (Platform.isIOS) {
+      // iOS 알림 설정 화면으로 이동
+      await launch('app-settings:');
+    } else {
+      print("This platform does not support settings redirection.");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +55,7 @@ class FifthPage extends StatelessWidget {
                 // 사용자 설정 / 구독 설정 섹션
                 _buildSectionDivider(),
                 _buildSectionTitle('사용자 설정 / 구독 설정'),
-                _buildListItem(context, '  시스템 알림 설정'),
+                _buildListItem(context, '  시스템 알림 설정', openSettings: true),
                 _buildListItem(context, '  학과 및 키워드 알림 설정'),
                 _buildListItem(context, '  학과 및 키워드 편집'),
 
@@ -88,7 +106,8 @@ class FifthPage extends StatelessWidget {
   Widget _buildListItem(BuildContext context, String title,
       {bool showFAQPopup = false,
       bool showInquiryPopup = false,
-      bool showVersionPopup = false}) {
+      bool showVersionPopup = false,
+      bool openSettings = false,}) {
     return ListTile(
       title: Text(
         title,
@@ -106,6 +125,9 @@ class FifthPage extends StatelessWidget {
         } else if (showVersionPopup) {
           _showPopup(context, '버전 및 공지',
                versionContent: true, buttonTopPadding: 10.0); // 버전 및 공지 팝업
+        }
+        if(openSettings){
+          _openSettings();
         }
       },
     );
