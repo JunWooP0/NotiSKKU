@@ -25,6 +25,7 @@ class _SearchNoticeScreenState extends ConsumerState<SearchNoticeScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          const SizedBox(height: 50,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10),
@@ -84,7 +85,7 @@ class _SearchNoticeScreenState extends ConsumerState<SearchNoticeScreen> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

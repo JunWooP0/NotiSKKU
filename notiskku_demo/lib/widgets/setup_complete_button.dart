@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notiskku_demo/screens/start/refactored_startScreen.dart';
 import 'package:notiskku_demo/screens/start/startScreen.dart';
 
 class SetupCompleteButton extends StatefulWidget {
@@ -30,7 +31,8 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
                   // 버튼 클릭 시 startScreen으로 이동
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const StartScreen()),
+                    //MaterialPageRoute(builder: (context) => const StartScreen()),
+                    MaterialPageRoute(builder: (context) => const ReStartScreen()),
                   );
                 }
               : null,

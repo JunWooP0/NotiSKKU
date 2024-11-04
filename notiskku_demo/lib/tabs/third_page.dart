@@ -36,11 +36,13 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
         padding: const EdgeInsets.all(10.0), // Padding을 Container로 이동
         child: Column(
           children: [
+            const SizedBox(height: 50,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'assets/images/greenlogo.png',
+                  // 'assets/images/greenlogo.png',
+                  'assets/images/greenlogo_fix.png',
                   width: 40,
                 ),
                 const Text(
@@ -89,7 +91,7 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
                               title: Text(
                                 starredUrl, // URL말고 공지 제목 나오게 바꿔야됨
                                 style: const TextStyle(
-                                    fontSize: 17, color: Colors.black),
+                                    fontSize: 15, color: Colors.black),
                               ),
                               onTap: () {
                                 // URL 열기 함수 호출

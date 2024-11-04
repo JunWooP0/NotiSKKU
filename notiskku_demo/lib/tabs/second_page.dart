@@ -51,6 +51,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          const SizedBox(height: 50,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),
@@ -59,7 +60,11 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset('assets/images/greenlogo.png', width: 40),
+                    Image.asset(
+                      // 'assets/images/greenlogo.png',
+                      'assets/images/greenlogo_fix.png',
+                      width: 40,
+                    ),
                     const Text(
                       '키워드',
                       style: TextStyle(
@@ -168,22 +173,25 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred = ref.watch(starredProvider).contains(notice.url);
-                      
+                      final isStarred =
+                          ref.watch(starredProvider).contains(notice.url);
+
                       return Column(
                         children: [
                           ListTile(
                             title: Text(
                               notice.title,
                               style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
+                                  TextStyle(fontSize: 15, color: Colors.black),
                             ),
                             subtitle:
                                 Text('${notice.date} | 조회수: ${notice.views}'),
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleUrl(notice.url);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleUrl(notice.url);
                                 });
                               },
                               child: Image.asset(
