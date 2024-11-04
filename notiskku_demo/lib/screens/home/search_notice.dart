@@ -22,45 +22,40 @@ class _SearchNoticeScreenState extends ConsumerState<SearchNoticeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.pop(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainHomePage(),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/go_back.png', width: 40),
+        ),
+      ),
+      title: const Text(
+        '검색',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 23,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+      centerTitle: true, // 제목 중앙 정렬
+      actions: const [
+        SizedBox(width: 40), // 오른쪽 여백 추가
+      ],
+    ),
+
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 50,),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                // 왼쪽 뒤로 가기 버튼
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainHomePage(),
-                        ));
-                  },
-                  child: Image.asset('assets/images/go_back.png', width: 40),
-                ),
-
-                // 중앙에 텍스트 배치
-                const Expanded(
-                  child: Text(
-                    '검색',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 40,
-                ),
-              ],
-            ),
-          ),
           const SizedBox(height: 10),
           SearchNoticeWord(
             onSearchChanged: (newText) {

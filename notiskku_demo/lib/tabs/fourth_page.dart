@@ -6,39 +6,26 @@ class FourthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/greenlogo.png', width: 40),
+        ),
+        title: const Text(
+          '학사일정',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true, // 타이틀 중앙 정렬
+      ),
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 50,),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      // 'assets/images/greenlogo.png',
-                      'assets/images/greenlogo_fix.png',
-                      width: 40,
-                    ),
-                    const Text(
-                      '학사일정',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 40,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
           Expanded(
             child: Center(
               child: Column(
