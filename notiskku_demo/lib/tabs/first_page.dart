@@ -73,35 +73,6 @@ class _FirstPageState extends ConsumerState<FirstPage> {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: Padding(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
-        ),
-        title: selectedMajors.isNotEmpty
-            ? Text(
-                selectedMajors.join(', '),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-                overflow:
-                    TextOverflow.ellipsis, // to handle long names gracefully
-              )
-            : const Text(
-                '학과를 선택하세요',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-        actions: [
-          Padding(
             padding: const EdgeInsets.all(10.0),
             child: Image.asset('assets/images/greenlogo.png', width: 40),
           ),
