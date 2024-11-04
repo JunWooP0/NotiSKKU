@@ -196,8 +196,8 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                 isStarred
                                     ? 'assets/images/fullstar.png'
                                     : 'assets/images/emptystar.png',
-                                width: 24,
-                                height: 24,
+                                width: 26,
+                                height: 26,
                               ),
                             ),
                             onTap: () async {
@@ -224,12 +224,3 @@ class _SecondPageState extends ConsumerState<SecondPage> {
     );
   }
 }
-//   void _launchURL(String url) async {
-//     final Uri uri = Uri.parse(url);
-//     if (await canLaunchUrl(uri)) {
-//       await launchUrl(uri, mode: LaunchMode.externalApplication);
-//     } else {
-//       throw 'Could not launch $url';
-//     }
-//   }
-// }
