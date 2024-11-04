@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
+import 'package:notiskku_demo/providers/keyword_provider.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
+import 'package:notiskku_demo/push_notification/notification.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstPage extends ConsumerStatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -39,6 +42,9 @@ class _FirstPageState extends ConsumerState<FirstPage> {
     super.initState();
     noticesFuture =
         noticeService.fetchNotices(_getCategoryUrl(0)); // fetchNotices 호출
+    // noticesFuture.then((notices) {
+    //   _checkForKeywordMatches(notices); // 공지 목록에 대해 키워드 검사
+    // });
   }
 
   // 카테고리 인덱스에 따라 URL 반환
@@ -68,36 +74,37 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   Widget build(BuildContext context) {
     final selectedMajors = ref.watch(majorProvider);
     return Scaffold(
-          appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Image.asset('assets/images/greenlogo.png', width: 40),
-          ),
-          title: selectedMajors.isNotEmpty
-              ? Text(
-                  selectedMajors.join(', '),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  overflow: TextOverflow.ellipsis, // to handle long names gracefully
-                )
-              : const Text(
-                  '학과를 선택하세요',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                color: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/greenlogo.png', width: 40),
+        ),
+        title: selectedMajors.isNotEmpty
+            ? Text(
+                selectedMajors.join(', '),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                overflow:
+                    TextOverflow.ellipsis, // to handle long names gracefully
+              )
+            : const Text(
+                '학과를 선택하세요',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GestureDetector(
-                onTap: () {
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -169,8 +169,6 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                       final notice = notices[index];
                       final isStarred =
                           ref.watch(starredProvider).contains(notice.url);
-;
-
                       return Column(
                         children: [
                           ListTile(
