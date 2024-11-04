@@ -191,8 +191,8 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                         .contains(notice.url) // 상태를 바탕으로 별표 표시
                                     ? 'assets/images/fullstar_fix.png'
                                     : 'assets/images/emptystar_fix.png',
-                                width: 26,
-                                height: 26,
+                                width: 24,
+                                height: 24,
                               ),
                             ),
                             onTap: () async {

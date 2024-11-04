@@ -31,8 +31,14 @@ class FourthPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/to_be_implemented_fix.png'),
-                  const SizedBox(height: 20,),
+                  Image.asset(
+                    'assets/images/to_be_implemented_fix.png',
+                    width: 100, // 원하는 너비 설정
+                    height: 100, // 원하는 높이 설정
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const Text(
                     '서비스 준비 중입니다',
                     style: TextStyle(

@@ -109,7 +109,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   ),
                 );
               },
-              child: Image.asset('assets/images/search_fix.png', width: 40),
+              child: Image.asset('assets/images/search_fix.png', width: 30),
             ),
           ),
         ],
@@ -272,8 +272,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 isStarred
                                     ? 'assets/images/fullstar_fix.png'
                                     : 'assets/images/emptystar_fix.png',
-                                width: 26,
-                                height: 26,
+                                width: 24,
+                                height: 24,
                               ),
                             ),
                             onTap: () async {
