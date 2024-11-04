@@ -1,42 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:notiskku_demo/notice_functions/launch_url.dart'; // LaunchUrlService import 추가
 
 class FifthPage extends StatelessWidget {
   const FifthPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LaunchUrlService launchService =
+        LaunchUrlService(); // LaunchUrlService 객체 생성
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 50,),
+          const SizedBox(
+            height: 50,
+          ),
           // 상단 바
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.all(10.0),
-            child: Stack(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Image.asset(
-                    // 'assets/images/greenlogo.png',
-                    'assets/images/greenlogo_fix.png',
-                    width: 40,
+                Image.asset(
+                  'assets/images/greenlogo_fix.png',
+                  width: 40,
+                ),
+                const Text(
+                  '더보기',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0), // 텍스트만 약간 아래로 이동
-                    child: const Text(
-                      '더보기',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  width: 40,
                 ),
               ],
             ),
@@ -111,18 +111,21 @@ class FifthPage extends StatelessWidget {
       trailing: Icon(Icons.arrow_forward_ios, color: Colors.black),
       onTap: () {
         if (showFAQPopup) {
-          _showPopup(context, 'FAQ');
+          _showPopup(context, 'FAQ', buttonTopPadding: 60.0); // FAQ 팝업
         } else if (showInquiryPopup) {
-          _showPopup(context, '문의 / 건의');
+          _showPopup(context, '문의 / 건의', buttonTopPadding: 55.0); // 문의 / 건의 팝업
         } else if (showVersionPopup) {
-          _showPopup(context, '버전 및 공지', versionContent: true);
+          _showPopup(context, '버전 및 공지',
+               versionContent: true, buttonTopPadding: 10.0); // 버전 및 공지 팝업
         }
       },
     );
   }
 
   void _showPopup(BuildContext context, String title,
-      {bool versionContent = false}) {
+      {bool versionContent = false, double buttonTopPadding = 20.0}) {
+    final LaunchUrlService launchService =
+        LaunchUrlService(); // LaunchUrlService 객체 생성
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -135,99 +138,117 @@ class FifthPage extends StatelessWidget {
               const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
           content: Container(
             width: double.maxFinite,
-            height: 350, // 팝업창의 세로 길이
-            child: SingleChildScrollView(
-              // 스크롤 가능하게 감싸기
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0B5B42),
-                    ),
-                  ),
-                  const Divider(
+            height: 320, // 팝업창의 세로 길이 조정
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                     color: Color(0xFF0B5B42),
-                    thickness: 3,
-                    height: 20,
                   ),
-
+                ),
+                const Divider(
+                  color: Color(0xFF0B5B42),
+                  thickness: 3,
+                  height: 20,
+                ),
+                SizedBox(height: title == '버전 및 공지' ? 10 : 15), // 조건에 따른 간격 조절
+                if (versionContent) ...[
                   SizedBox(
-                      height: title == '버전 및 공지' ? 10 : 20), // 조건에 따른 간격 조절
-
-                  // SizedBox(height: 20),
-
-                  if (versionContent) ...[
-                    _buildVersionContent(),
-                  ] else if (title == '문의 / 건의') ...[
-                    const Text(
-                      '문의 및 건의는 아래의 카카오톡 오픈채팅을 이용해 주세요.\n답변은 2~3일 정도 소요될 수 있습니다.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    height: 200, // 버전 및 공지사항 내용의 세로 길이 조정
+                    child: SingleChildScrollView(
+                      child: _buildVersionContent(),
+                    ),
+                  ),
+                ] else ...[
+                  _buildOtherContent(title, launchService),
+                ],
+                SizedBox(height: buttonTopPadding), // 버튼과 콘텐츠 간격 조정
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0B5B42),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      color: Colors.grey[300],
-                      child: const Text(
-                        'https://open.kakao.com/o/gKYMY3Wg',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                    ),
-                  ] else ...[
-                    Image.asset(
-                      'assets/images/fix.png',
-                      width: 80,
-                      height: 80,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      '서비스 준비 중입니다',
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                  SizedBox(height: 30),
-                  Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0B5B42),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: Text(
-                          '확인',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
       },
     );
+  }
+
+// 공지사항 내용 외의 다른 내용 생성 함수
+  Widget _buildOtherContent(String title, LaunchUrlService launchService) {
+    if (title == '문의 / 건의') {
+      return Column(
+        children: [
+          const Text(
+            '문의 및 건의는 아래의 카카오톡 오픈채팅을 이용해 주세요.\n답변은 2~3일 정도 소요될 수 있습니다.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 10),
+          GestureDetector(
+            onTap: () {
+              launchService.launchURL('https://open.kakao.com/o/gKYMY3Wg');
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              color: Colors.grey[300],
+              child: const Text(
+                'https://open.kakao.com/o/gKYMY3Wg',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          SizedBox(height: 15),
+          Image.asset(
+            'assets/images/fix.png',
+            width: 80,
+            height: 80,
+            color: Colors.grey[400],
+          ),
+          SizedBox(height: 20),
+          Text(
+            '서비스 준비 중입니다',
+            style: TextStyle(
+              color: Colors.grey[500],
+              fontSize: 18,
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   Widget _buildVersionContent() {
