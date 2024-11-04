@@ -5,8 +5,8 @@ import 'package:notiskku_demo/screens/start/logo_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ProviderScope( // ProviderScope로 앱을 감싸줍니다.
-      child: const MyApp(),
+    const ProviderScope( // ProviderScope로 앱을 감싸줍니다.
+      child: MyApp(),
     ),
   );
 }
