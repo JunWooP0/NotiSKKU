@@ -4,7 +4,6 @@ import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
 
@@ -269,15 +268,14 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 isStarred
                                     ? 'assets/images/fullstar.png'
                                     : 'assets/images/emptystar.png',
-                                width: 24,
-                                height: 24,
+                                width: 26,
+                                height: 26,
                               ),
                             ),
                             onTap: () async {
                               await launchUrlService.launchURL(
                                   notice.url); // LaunchUrlService를 사용하여 URL 열기
                             },
-                            //onTap: () => _launchURL(notice.url), // URL 열기
                           ),
                           const Divider(
                             color: Colors.grey,
@@ -297,13 +295,4 @@ class _FirstPageState extends ConsumerState<FirstPage> {
       ),
     );
   }
-
-  // void _launchURL(String url) async {
-  //   final Uri uri = Uri.parse(url);
-  //   if (await canLaunchUrl(uri)) {
-  //     await launchUrl(uri, mode: LaunchMode.externalApplication);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
 }

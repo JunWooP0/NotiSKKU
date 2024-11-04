@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
+import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,6 +19,8 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
   bool editMode = false;
   late Future<List<Notice>> noticesFuture;
   final noticeService = NoticeService(); // NoticeService 인스턴스 생성
+  final LaunchUrlService launchUrlService =
+      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
 
   @override
   void initState() {
@@ -58,13 +61,13 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
               },
               child: const Text(
                 '편집',
-               style: TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   color: Colors.black,
                 ),
               ),
             ),
-          ),          
+          ),
         ],
       ),
       backgroundColor: Colors.white,
@@ -96,9 +99,11 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
                                 style: const TextStyle(
                                     fontSize: 15, color: Colors.black),
                               ),
-                              onTap: () {
-                                // URL 열기 함수 호출
-                              },
+                              onTap: (){},
+                              // onTap: () async {
+                              //   await launchUrlService.launchURL(notice
+                              //       .url); // LaunchUrlService를 사용하여 URL 열기
+                              // },
                             ),
                             const Divider(
                               color: Colors.grey,
