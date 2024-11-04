@@ -4,7 +4,6 @@ import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
 
@@ -68,48 +67,59 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   @override
   Widget build(BuildContext context) {
     final selectedMajors = ref.watch(majorProvider);
-
     return Scaffold(
+          appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Image.asset('assets/images/greenlogo.png', width: 40),
+          ),
+          title: selectedMajors.isNotEmpty
+              ? Text(
+                  selectedMajors.join(', '),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis, // to handle long names gracefully
+                )
+              : const Text(
+                  '학과를 선택하세요',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: GestureDetector(
+                onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchNoticeScreen(),
+                  ),
+                );
+              },
+              child: Image.asset('assets/images/search.png', width: 40),
+            ),
+          ),
+        ],
+        centerTitle: true, // 타이틀 중앙 정렬
+      ),
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 50,),
           // 상단 바
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      // 'assets/images/greenlogo.png',
-                      'assets/images/greenlogo_fix.png',
-                      width: 40,
-                    ),
-                    // 여기 피그마에서는 학과명 뜨는거로 해뒀는데 학과명이 길어지면 UI가 구려져서 일단 주석해둠 -채연
-                    //  Text(
-                    //   selectedMajors.isNotEmpty ? selectedMajors.join(', ') : '학과를 선택하세요',
-                    //   style: const TextStyle(
-                    //     fontSize: 18,
-                    //     fontWeight: FontWeight.bold,
-                    //     color: Colors.black,
-                    //   ),
-                    // ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchNoticeScreen(),
-                          ),
-                        );
-                      },
-                      child: Image.asset('assets/images/search.png', width: 40),
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,15 +268,14 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                                 isStarred
                                     ? 'assets/images/fullstar.png'
                                     : 'assets/images/emptystar.png',
-                                width: 24,
-                                height: 24,
+                                width: 26,
+                                height: 26,
                               ),
                             ),
                             onTap: () async {
                               await launchUrlService.launchURL(
                                   notice.url); // LaunchUrlService를 사용하여 URL 열기
                             },
-                            //onTap: () => _launchURL(notice.url), // URL 열기
                           ),
                           const Divider(
                             color: Colors.grey,
@@ -286,13 +295,4 @@ class _FirstPageState extends ConsumerState<FirstPage> {
       ),
     );
   }
-
-  // void _launchURL(String url) async {
-  //   final Uri uri = Uri.parse(url);
-  //   if (await canLaunchUrl(uri)) {
-  //     await launchUrl(uri, mode: LaunchMode.externalApplication);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
 }

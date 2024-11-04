@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
+import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,6 +19,8 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
   bool editMode = false;
   late Future<List<Notice>> noticesFuture;
   final noticeService = NoticeService(); // NoticeService 인스턴스 생성
+  final LaunchUrlService launchUrlService =
+      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
 
   @override
   void initState() {
@@ -31,44 +34,47 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
     final starredUrls = ref.watch(starredProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset('assets/images/greenlogo.png', width: 40),
+        ),
+        title: const Text(
+          '공지보관함',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true, // 타이틀 중앙 정렬
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  editMode = true;
+                });
+              },
+              child: const Text(
+                '편집',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(10.0), // Padding을 Container로 이동
         child: Column(
           children: [
-            const SizedBox(height: 50,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  // 'assets/images/greenlogo.png',
-                  'assets/images/greenlogo_fix.png',
-                  width: 40,
-                ),
-                const Text(
-                  '공지보관함',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      editMode = true;
-                    });
-                  },
-                  child: const Text(
-                    '편집',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 10),
             Expanded(
               child: starredUrls.isEmpty
@@ -93,9 +99,11 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
                                 style: const TextStyle(
                                     fontSize: 15, color: Colors.black),
                               ),
-                              onTap: () {
-                                // URL 열기 함수 호출
-                              },
+                              onTap: (){},
+                              // onTap: () async {
+                              //   await launchUrlService.launchURL(notice
+                              //       .url); // LaunchUrlService를 사용하여 URL 열기
+                              // },
                             ),
                             const Divider(
                               color: Colors.grey,
