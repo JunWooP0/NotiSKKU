@@ -53,7 +53,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
+          child: Image.asset('assets/images/greenlogo_fix.png', width: 40),
         ),
         title: const Text(
           '키워드',
@@ -76,14 +76,14 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      '키워드별 보기',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                    // const Text(
+                    //   '키워드별 보기',
+                    //   style: TextStyle(
+                    //     fontSize: 18,
+                    //     fontWeight: FontWeight.bold,
+                    //     color: Colors.black,
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -181,19 +181,16 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                 Text('${notice.date} | 조회수: ${notice.views}'),
                             trailing: GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  ref
-                                      .read(starredProvider.notifier)
-                                      .toggleUrl(notice.url);
-                                  ref
-                                      .read(starredProvider.notifier)
-                                      .toggleUrl(notice.url);
-                                });
+                                ref
+                                    .read(starredProvider.notifier)
+                                    .toggleUrl(notice.url); // 한 번만 호출
                               },
                               child: Image.asset(
-                                isStarred
-                                    ? 'assets/images/fullstar.png'
-                                    : 'assets/images/emptystar.png',
+                                ref
+                                        .watch(starredProvider)
+                                        .contains(notice.url) // 상태를 바탕으로 별표 표시
+                                    ? 'assets/images/fullstar_fix.png'
+                                    : 'assets/images/emptystar_fix.png',
                                 width: 26,
                                 height: 26,
                               ),

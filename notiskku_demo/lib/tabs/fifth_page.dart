@@ -33,7 +33,7 @@ class FifthPage extends StatelessWidget {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
+          child: Image.asset('assets/images/greenlogo_fix.png', width: 40),
         ),
         title: const Text(
           '더보기',

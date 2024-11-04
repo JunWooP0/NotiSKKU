@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
-import 'package:notiskku_demo/providers/keyword_provider.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
-import 'package:notiskku_demo/push_notification/notification.dart';
 import 'package:notiskku_demo/screens/home/search_notice.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/major_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstPage extends ConsumerStatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -79,7 +76,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
+          child: Image.asset('assets/images/greenlogo_fix.png', width: 40),
         ),
         title: selectedMajors.isNotEmpty
             ? Text(
@@ -112,7 +109,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   ),
                 );
               },
-              child: Image.asset('assets/images/search.png', width: 40),
+              child: Image.asset('assets/images/search_fix.png', width: 40),
             ),
           ),
         ],
@@ -273,8 +270,8 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                               },
                               child: Image.asset(
                                 isStarred
-                                    ? 'assets/images/fullstar.png'
-                                    : 'assets/images/emptystar.png',
+                                    ? 'assets/images/fullstar_fix.png'
+                                    : 'assets/images/emptystar_fix.png',
                                 width: 26,
                                 height: 26,
                               ),

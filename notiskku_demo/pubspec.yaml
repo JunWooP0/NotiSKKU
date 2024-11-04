@@ -97,10 +97,19 @@ flutter:
     - assets/images/emptystar.png
     - assets/images/fullstar.png
     - assets/images/search.png
+    - assets/images/notice_fix.png
+    - assets/images/keyword_fix.png
+    - assets/images/bogwan_fix.png
+    - assets/images/calendar_fix.png
+    - assets/images/more_fix.png
+    - assets/images/emptystar_fix.png
+    - assets/images/fullstar_fix.png
+    - assets/images/search_fix.png
     - assets/images/greenlogo.png
     - assets/images/fix.png
     - assets/images/go_back.png
     - assets/images/to_be_implemented.png
+    - assets/images/to_be_implemented_fix.png
     - assets/images/erase.png
     - assets/images/first_fix.png
     - assets/images/second_fix.png
