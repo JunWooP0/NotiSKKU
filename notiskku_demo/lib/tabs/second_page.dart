@@ -68,7 +68,6 @@ class _SecondPageState extends ConsumerState<SecondPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 50,),
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),
@@ -170,9 +169,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                       final notice = notices[index];
                       final isStarred =
                           ref.watch(starredProvider).contains(notice.url);
-
-                      final isStarred =
-                          ref.watch(starredProvider).contains(notice.url);
+;
 
                       return Column(
                         children: [

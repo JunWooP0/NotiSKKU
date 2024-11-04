@@ -68,7 +68,6 @@ class _FirstPageState extends ConsumerState<FirstPage> {
   @override
   Widget build(BuildContext context) {
     final selectedMajors = ref.watch(majorProvider);
-
     return Scaffold(
           appBar: AppBar(
           backgroundColor: Colors.white,
@@ -116,14 +115,12 @@ class _FirstPageState extends ConsumerState<FirstPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 50,),
           // 상단 바
           Container(
             color: Colors.white,
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
