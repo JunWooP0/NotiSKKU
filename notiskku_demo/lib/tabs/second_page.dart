@@ -4,6 +4,7 @@ import 'package:notiskku_demo/notice_functions/launch_url.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
+import 'package:notiskku_demo/screens/edit_keyword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 
@@ -74,21 +75,16 @@ class _SecondPageState extends ConsumerState<SecondPage> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // const Text(
-                    //   '키워드별 보기',
-                    //   style: TextStyle(
-                    //     fontSize: 18,
-                    //     fontWeight: FontWeight.bold,
-                    //     color: Colors.black,
-                    //   ),
-                    // ),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          isEditing = !isEditing; // 편집 상태 전환
-                        });
+                        Navigator.push(
+                          context,
+                          //MaterialPageRoute(builder: (context) => const StartScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const EditKeyword()),
+                        );
                       },
                       child: const Text(
                         '편집',
