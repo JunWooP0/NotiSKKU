@@ -29,40 +29,104 @@ class _FirstPageState extends ConsumerState<FirstPage> {
     '일반'
   ];
   List<bool> isStarred = [];
-  late Future<List<Notice>> noticesFuture;
-  final NoticeService noticeService = NoticeService(); // NoticeService 인스턴스 생성
-  final LaunchUrlService launchUrlService =
-      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
+  Future<List<Notice>>? noticesFuture; // nullable로 수정
+  final NoticeService noticeService = NoticeService();
+  final LaunchUrlService launchUrlService = LaunchUrlService();
 
-  @override
-  void initState() {
-    super.initState();
-    noticesFuture =
-        noticeService.fetchNotices(_getCategoryUrl(0)); // fetchNotices 호출
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  
+  // noticesFuture가 null인 경우, 초기 로딩 수행
+  if (noticesFuture == null) {
+    final selectedMajors = ref.watch(majorProvider);
+    final majorOrDepartment = selectedMajors.isNotEmpty ? selectedMajors[0] : '';
+    noticesFuture = noticeService.fetchNotices(_getCategoryUrl(0, majorOrDepartment));
   }
+}
 
-  // 카테고리 인덱스에 따라 URL 반환
-  String _getCategoryUrl(int index) {
-    switch (index) {
-      case 1:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice02.do'; // 학사
-      case 2:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice03.do'; // 입학
-      case 3:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice04.do'; // 취업
-      case 4:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice05.do'; // 취업
-      case 5:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice06.do'; // 취업
-      case 6:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice07.do'; // 취업
-      case 7:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice08.do'; // 취업
-      // 필요한 URL 추가
-      default:
-        return 'https://www.skku.edu/skku/campus/skk_comm/notice01.do'; // 전체
+// 카테고리나 학과 선택 시 호출될 메소드
+void _updateNotices() {
+  final selectedMajors = ref.watch(majorProvider);
+  final majorOrDepartment = selectedMajors.isNotEmpty ? selectedMajors[0] : '';
+
+  setState(() {
+    noticesFuture = noticeService.fetchNotices(
+      _getCategoryUrl(selectedIndex, majorOrDepartment)
+    );
+  });
+}
+
+String _getCategoryUrl(int index, String majorOrDepartment) {
+  if (majorOrDepartment == '소프트웨어학과') {
+    if (selectedCategoryIndex == 2) { // 학과 선택 시
+      switch (index) {
+        case 1:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1582';
+        case 2:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1583';
+        case 3:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1584';
+        case 4:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1585';
+        case 5:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1586';
+        case 6:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1587';
+        case 7:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list&srCategoryId1=1588';
+        default:
+          return 'https://cse.skku.edu/cse/notice.do?mode=list';
+      }
+    } else if (selectedCategoryIndex == 1) { // 단과대학 선택 시
+      switch (index) {
+        case 1:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1582';
+        case 2:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1583';
+        case 3:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1584';
+        case 4:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1585';
+        case 5:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1586';
+        case 6:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1587';
+        case 7:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1588';
+        case 8:
+          return 'https://sw.skku.edu/sw/notice.do?mode=list&srCategoryId1=1589';
+        default:
+          return 'https://sw.skku.edu/sw/notice.do';
+      }
     }
   }
+
+  // 기본 학교 공지사항 URL 반환
+  if (selectedCategoryIndex == 0) {
+    switch (index) {
+      case 1:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice02.do';
+      case 2:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice03.do';
+      case 3:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice04.do';
+      case 4:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice05.do';
+      case 5:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice06.do';
+      case 6:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice07.do';
+      case 7:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice08.do';
+      default:
+        return 'https://www.skku.edu/skku/campus/skk_comm/notice01.do';
+    }
+  }
+
+  // 기본 URL 반환
+  return 'https://defaulturl.com';
+}
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +202,7 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                           onTap: () {
                             setState(() {
                               selectedCategoryIndex = categoryIndex;
+                              _updateNotices();
                             });
                           },
                           child: Container(
@@ -170,55 +235,60 @@ class _FirstPageState extends ConsumerState<FirstPage> {
                   }),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal, // 가로로 스크롤 가능하게 설정
-                        child: Row(
-                          children: List.generate(categories.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = index;
-                                    //noticesFuture = fetchNotices(_getCategoryUrl(index)); // 선택된 카테고리 URL에 따라 Future 업데이트
-                                    noticesFuture = noticeService
-                                        .fetchNotices(_getCategoryUrl(index));
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 33, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: selectedIndex == index
-                                        ? Color(0xB20B5B42) // 선택된 배경색
-                                        : Color(0x99D9D9D9), // 기본 배경색
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    categories[index],
-                                    style: TextStyle(
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal, // 가로로 스크롤 가능하게 설정
+                          child: Row(
+                            children: List.generate(categories.length, (index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = index;
+
+                                      // selectedMajors를 가져오기 위해 build 메소드에서 선언한 selectedMajors를 활용합니다.
+                                      final selectedMajors = ref.watch(majorProvider);
+                                      final majorOrDepartment = selectedMajors.isNotEmpty ? selectedMajors[0] : '';
+
+                                      // 선택된 카테고리 URL에 따라 noticesFuture를 업데이트합니다.
+                                      noticesFuture = noticeService.fetchNotices(
+                                        _getCategoryUrl(index, majorOrDepartment)
+                                      );
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 4),
+                                    decoration: BoxDecoration(
                                       color: selectedIndex == index
-                                          ? Colors.white // 선택된 텍스트 색상
-                                          : Colors.black, // 기본 텍스트 색상
-                                      fontSize: 15,
+                                          ? Color(0xB20B5B42) // 선택된 배경색
+                                          : Color(0x99D9D9D9), // 기본 배경색
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      categories[index],
+                                      style: TextStyle(
+                                        color: selectedIndex == index
+                                            ? Colors.white // 선택된 텍스트 색상
+                                            : Colors.black, // 기본 텍스트 색상
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            }),
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey),
-                    ),
-                  ],
-                ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(Icons.arrow_forward_ios, color: Colors.grey),
+                      ),
+                    ],
+                  )
               ],
             ),
           ),
