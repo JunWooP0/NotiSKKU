@@ -58,6 +58,7 @@ void _updateNotices() {
 }
 
 String _getCategoryUrl(int index, String majorOrDepartment) {
+  // 소프트웨어학과의 경우 조건에 맞는 URL 반환
   if (majorOrDepartment == '소프트웨어학과') {
     if (selectedCategoryIndex == 2) { // 학과 선택 시
       switch (index) {
@@ -102,8 +103,8 @@ String _getCategoryUrl(int index, String majorOrDepartment) {
     }
   }
 
-  // 기본 학교 공지사항 URL 반환
-  if (selectedCategoryIndex == 0) {
+  // 소프트웨어학과가 아닌 경우, selectedCategoryIndex가 1 또는 2여도 학교 선택처럼 작동
+  if (selectedCategoryIndex == 0 || selectedCategoryIndex == 1 || selectedCategoryIndex == 2) {
     switch (index) {
       case 1:
         return 'https://www.skku.edu/skku/campus/skk_comm/notice02.do';
