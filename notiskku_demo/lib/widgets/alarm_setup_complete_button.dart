@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/refactored_startScreen.dart';
-import 'package:notiskku_demo/screens/start/set_alarm_screen.dart';
-import 'package:notiskku_demo/screens/start/startScreen.dart';
 
-class SetupCompleteButton extends StatefulWidget {
-  const SetupCompleteButton({
+
+class AlarmSetupCompleteButton extends StatefulWidget {
+  const AlarmSetupCompleteButton({
     super.key,
-    required this.selectedMajor,
-    required this.selectedKeyword,
+    required this.alarmMajor,
+    required this.alarmKeyword,
   });
 
-  final List<String> selectedMajor;
-  final List<String> selectedKeyword;
+  final List<String> alarmMajor;
+  final List<String> alarmKeyword;
 
   @override
-  State<SetupCompleteButton> createState() => _SetupCompleteButtonState();
+  State<AlarmSetupCompleteButton> createState() => _AlarmSetupCompleteButtonState();
 }
 
-class _SetupCompleteButtonState extends State<SetupCompleteButton> {
+class _AlarmSetupCompleteButtonState extends State<AlarmSetupCompleteButton> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -27,18 +26,18 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
       child: FractionallySizedBox(
         widthFactor: 0.85,
         child: ElevatedButton(
-          onPressed: (widget.selectedMajor.isNotEmpty && widget.selectedKeyword.isNotEmpty)
+          onPressed: (widget.alarmMajor.isNotEmpty && widget.alarmKeyword.isNotEmpty)
               ? () {
                   // 버튼 클릭 시 startScreen으로 이동
                   Navigator.push(
                     context,
                     //MaterialPageRoute(builder: (context) => const StartScreen()),
-                    MaterialPageRoute(builder: (context) => const SetAlarmScreen()),
+                    MaterialPageRoute(builder: (context) => const ReStartScreen()),
                   );
                 }
               : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: (widget.selectedMajor.isNotEmpty && widget.selectedKeyword.isNotEmpty)
+            backgroundColor: (widget.alarmMajor.isNotEmpty && widget.alarmKeyword.isNotEmpty)
                 ? const Color(0xFF0B5B42)
                 : const Color(0xFF979797),
             shape: RoundedRectangleBorder(
@@ -50,7 +49,7 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
             children: [
               SizedBox(height: 11),
               Text(
-                '설정완료',
+                '알림설정완료',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,

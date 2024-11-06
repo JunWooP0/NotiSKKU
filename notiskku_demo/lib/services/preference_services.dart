@@ -25,6 +25,18 @@ Future<List<String>?> getSelectedKeywords() async {
   return prefs.getStringList('selectedKeywords');
 }
 
+// 알림 키워드 목록 저장
+Future<void> saveAlarmKeywords(List<String> alarmkeywords) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList(('alarmKeywords'), alarmkeywords);
+}
+
+// 알림 키워드 목록 불러오기
+Future<List<String>?> getAlarmKeywords() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('alarmKeywords');
+}
+
 // URL 목록 저장
 Future<void> saveUrl(List<String> url) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
