@@ -5,12 +5,8 @@ import 'package:notiskku_demo/screens/start/refactored_startScreen.dart';
 class AlarmSetupCompleteButton extends StatefulWidget {
   const AlarmSetupCompleteButton({
     super.key,
-    required this.alarmMajor,
-    required this.alarmKeyword,
   });
 
-  final List<String> alarmMajor;
-  final List<String> alarmKeyword;
 
   @override
   State<AlarmSetupCompleteButton> createState() => _AlarmSetupCompleteButtonState();
@@ -26,20 +22,17 @@ class _AlarmSetupCompleteButtonState extends State<AlarmSetupCompleteButton> {
       child: FractionallySizedBox(
         widthFactor: 0.85,
         child: ElevatedButton(
-          onPressed: (widget.alarmMajor.isNotEmpty && widget.alarmKeyword.isNotEmpty)
-              ? () {
+          onPressed: ()
+                {
                   // 버튼 클릭 시 startScreen으로 이동
                   Navigator.push(
                     context,
                     //MaterialPageRoute(builder: (context) => const StartScreen()),
                     MaterialPageRoute(builder: (context) => const ReStartScreen()),
                   );
-                }
-              : null,
+                },
           style: ElevatedButton.styleFrom(
-            backgroundColor: (widget.alarmMajor.isNotEmpty && widget.alarmKeyword.isNotEmpty)
-                ? const Color(0xFF0B5B42)
-                : const Color(0xFF979797),
+            backgroundColor:const Color(0xFF0B5B42),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),

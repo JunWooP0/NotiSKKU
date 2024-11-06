@@ -6,9 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AlarmKeywordsGrid extends StatefulWidget {
   const AlarmKeywordsGrid({
-    super.key,
-    required this.onAlarmKeywordChanged, 
+    super.key, 
     required this.alarmKeyword,
+    required this.onAlarmKeywordChanged,
 
   });
 
@@ -38,12 +38,32 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
 
   Future<void> _loadKeywords() async {
     final prefs = await SharedPreferences.getInstance();
+    
+    // Retrieve the list of selected keywords from SharedPreferences.
     final keywordStrings = prefs.getStringList('selectedKeywords') ?? ['Default Keyword'];
 
     setState(() {
-      // Map each string to a Keyword object, assuming Keyword has a constructor that accepts a string
-      filteredKeywords = keywordStrings.map((k) => Keyword(keyword: k, defined: Defined.devleoper)).toList();
+      // Map each string in keywordStrings to a Keyword object
+      filteredKeywords = keywordStrings
+          .map((k) => Keyword(
+                keyword: k,
+                defined: _getDefinedValue(k), // Assigning Defined enum based on the keyword
+              ))
+          .toList();
     });
+  }
+
+  // Function to map a keyword to its corresponding Defined enum value
+  Defined _getDefinedValue(String keyword) {
+    // Here, you can implement your logic for mapping
+    // For demonstration, we'll map 'user' keywords to Defined.user, 'dev' to Defined.developer
+    if (keyword.contains('user')) {
+      return Defined.user;
+    } else if (keyword.contains('developer')) {
+      return Defined.developer;
+    } else {
+      return Defined.user; // Default fallback
+    }
   }
 
 
@@ -58,10 +78,10 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
     }
   }
 
-// Method to save selected alarm keywords to preferences
-Future<void> saveAlarmKeywordsToPrefs() async {
-  await saveAlarmKeywords(alarmKeywords);
-}
+  // Method to save selected alarm keywords to preferences
+  Future<void> saveAlarmKeywordsToPrefs() async {
+    await saveAlarmKeywords(alarmKeywords);
+  }
 
 
   // Toggle alarm selection for keywords
