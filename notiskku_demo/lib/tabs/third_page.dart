@@ -17,17 +17,17 @@ class ThirdPage extends ConsumerStatefulWidget {
 
 class _ThirdPageState extends ConsumerState<ThirdPage> {
   bool editMode = false;
-  late Future<List<Notice>> noticesFuture;
+  //late Future<List<Notice>> noticesFuture;
   final noticeService = NoticeService(); // NoticeService 인스턴스 생성
   final LaunchUrlService launchUrlService =
       LaunchUrlService(); // LaunchUrlService 인스턴스 생성
 
-  @override
-  void initState() {
-    super.initState();
-    noticesFuture = noticeService
-        .fetchNotices('https://www.skku.edu/skku/campus/skk_comm/notice01.do');
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   noticesFuture = noticeService
+  //       .fetchNotices('https://www.skku.edu/skku/campus/skk_comm/notice01.do');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +99,10 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
                                 style: const TextStyle(
                                     fontSize: 15, color: Colors.black),
                               ),
-                              onTap: (){},
-                              // onTap: () async {
-                              //   await launchUrlService.launchURL(notice
-                              //       .url); // LaunchUrlService를 사용하여 URL 열기
-                              // },
+                              onTap: () async {
+                                // await launchUrlService.launchURL(notice
+                                //     .url); // LaunchUrlService를 사용하여 URL 열기
+                              },
                             ),
                             const Divider(
                               color: Colors.grey,
@@ -118,14 +117,5 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
         ),
       ),
     );
-  }
-
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }
