@@ -315,7 +315,7 @@ String _getCategoryUrl(int index, String majorOrDepartment) {
                     itemBuilder: (context, index) {
                       final notice = notices[index];
                       final isStarred =
-                          ref.watch(starredProvider).contains(notice.url);
+                          ref.watch(starredProvider).contains(notice);
 
                       return Column(
                         children: [
@@ -328,21 +328,17 @@ String _getCategoryUrl(int index, String majorOrDepartment) {
                             subtitle: Text(
                                 '${notice.date} | 조회수: ${notice.views}'), // 날짜와 조회수 함께 표시
                             trailing: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  ref
-                                      .read(starredProvider.notifier)
-                                      .toggleUrl(notice.url);
-                                });
-                              },
-                              child: Image.asset(
-                                isStarred
-                                    ? 'assets/images/fullstar.png'
-                                    : 'assets/images/emptystar.png',
-                                width: 26,
-                                height: 26,
-                              ),
-                            ),
+                                      onTap: () {
+                                        ref.read(starredProvider.notifier).toggleNotice(notice);
+                                      },
+                                      child: Image.asset(
+                                        isStarred
+                                            ? 'assets/images/fullstar.png'
+                                            : 'assets/images/emptystar.png',
+                                        width: 26,
+                                        height: 26,
+                                      ),
+                                    ),
                             onTap: () async {
                               await launchUrlService.launchURL(
                                   notice.url); // LaunchUrlService를 사용하여 URL 열기
