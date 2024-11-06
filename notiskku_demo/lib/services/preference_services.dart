@@ -13,6 +13,18 @@ Future<List<String>?> getSelectedMajors() async {
   return prefs.getStringList('selectedMajors');
 }
 
+// 알림 전공 목록 저장
+Future<void> saveAlarmMajors(List<String> majors) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList('alarmMajors', majors);
+}
+
+// 알림 목록 불러오기
+Future<List<String>?> getAlarmMajors() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('alarmMajors');
+}
+
 // 키워드 목록 저장
 Future<void> saveSelectedKeywords(List<String> keywords) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -23,6 +35,18 @@ Future<void> saveSelectedKeywords(List<String> keywords) async {
 Future<List<String>?> getSelectedKeywords() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getStringList('selectedKeywords');
+}
+
+// 알림 키워드 목록 저장
+Future<void> saveAlarmKeywords(List<String> alarmkeywords) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList(('alarmKeywords'), alarmkeywords);
+}
+
+// 알림 키워드 목록 불러오기
+Future<List<String>?> getAlarmKeywords() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('alarmKeywords');
 }
 
 // URL 목록 저장
