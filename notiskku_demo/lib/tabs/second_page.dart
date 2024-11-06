@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
 import 'package:notiskku_demo/screens/edit_keyword.dart';
