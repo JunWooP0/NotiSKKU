@@ -60,6 +60,13 @@ class _SearchMajorState extends State<SearchMajor> {
               },
             ),
           ),
+          GestureDetector(
+            onTap: (){
+              _titleController.clear();
+              widget.onSearchChanged('');
+            },
+            child: Image.asset('assets/images/erase.png'),
+          ),
           const Icon(
             Icons.search,
             size: 37,
