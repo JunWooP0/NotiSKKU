@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/models/notice.dart';
-import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
 
 class ThirdPage extends ConsumerStatefulWidget {
   const ThirdPage({super.key});
@@ -17,21 +16,11 @@ class ThirdPage extends ConsumerStatefulWidget {
 
 class _ThirdPageState extends ConsumerState<ThirdPage> {
   bool editMode = false;
-  late Future<List<Notice>> noticesFuture;
-  final noticeService = NoticeService(); // NoticeService 인스턴스 생성
-  final LaunchUrlService launchUrlService =
-      LaunchUrlService(); // LaunchUrlService 인스턴스 생성
-
-  @override
-  void initState() {
-    super.initState();
-    noticesFuture = noticeService
-        .fetchNotices('https://www.skku.edu/skku/campus/skk_comm/notice01.do');
-  }
+  final LaunchUrlService launchUrlService = LaunchUrlService();
 
   @override
   Widget build(BuildContext context) {
-    final starredUrls = ref.watch(starredProvider);
+    final starredNotices = ref.watch(starredProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +38,7 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
             color: Colors.black,
           ),
         ),
-        centerTitle: true, // 타이틀 중앙 정렬
+        centerTitle: true,
         actions: [
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -72,12 +61,12 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
       ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(10.0), // Padding을 Container로 이동
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             const SizedBox(height: 10),
             Expanded(
-              child: starredUrls.isEmpty
+              child: starredNotices.isEmpty
                   ? const Center(
                       child: Text(
                         '저장된 공지가 없습니다',
@@ -85,25 +74,23 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: starredUrls.length,
+                      itemCount: starredNotices.length,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       itemBuilder: (BuildContext context, int index) {
-                        final reversedIndex = starredUrls.length - 1 - index;
-                        final starredUrl = starredUrls[reversedIndex];
+                        final reversedIndex = starredNotices.length - 1 - index;
+                        final starredNotice = starredNotices[reversedIndex];
 
                         return Column(
                           children: [
                             ListTile(
                               title: Text(
-                                starredUrl, // URL말고 공지 제목 나오게 바꿔야됨
+                                starredNotice.title, // 공지 제목 표시
                                 style: const TextStyle(
                                     fontSize: 15, color: Colors.black),
                               ),
-                              onTap: (){},
-                              // onTap: () async {
-                              //   await launchUrlService.launchURL(notice
-                              //       .url); // LaunchUrlService를 사용하여 URL 열기
-                              // },
+                              onTap: () async {
+                                await launchUrlService.launchURL(starredNotice.url);
+                              },
                             ),
                             const Divider(
                               color: Colors.grey,
@@ -118,14 +105,5 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
         ),
       ),
     );
-  }
-
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

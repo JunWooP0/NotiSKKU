@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/refactored_startScreen.dart';
-import 'package:notiskku_demo/screens/start/set_alarm_screen.dart';
-import 'package:notiskku_demo/screens/start/startScreen.dart';
 
-class SetupCompleteButton extends StatefulWidget {
-  const SetupCompleteButton({
+
+class AlarmSetupCompleteButton extends StatefulWidget {
+  const AlarmSetupCompleteButton({
     super.key,
-    required this.selectedMajor,
-    required this.selectedKeyword,
   });
 
-  final List<String> selectedMajor;
-  final List<String> selectedKeyword;
 
   @override
-  State<SetupCompleteButton> createState() => _SetupCompleteButtonState();
+  State<AlarmSetupCompleteButton> createState() => _AlarmSetupCompleteButtonState();
 }
 
-class _SetupCompleteButtonState extends State<SetupCompleteButton> {
+class _AlarmSetupCompleteButtonState extends State<AlarmSetupCompleteButton> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -27,20 +22,17 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
       child: FractionallySizedBox(
         widthFactor: 0.85,
         child: ElevatedButton(
-          onPressed: (widget.selectedMajor.isNotEmpty && widget.selectedKeyword.isNotEmpty)
-              ? () {
+          onPressed: ()
+                {
                   // 버튼 클릭 시 startScreen으로 이동
                   Navigator.push(
                     context,
                     //MaterialPageRoute(builder: (context) => const StartScreen()),
-                    MaterialPageRoute(builder: (context) => const SetAlarmScreen()),
+                    MaterialPageRoute(builder: (context) => const ReStartScreen()),
                   );
-                }
-              : null,
+                },
           style: ElevatedButton.styleFrom(
-            backgroundColor: (widget.selectedMajor.isNotEmpty && widget.selectedKeyword.isNotEmpty)
-                ? const Color(0xFF0B5B42)
-                : const Color(0xFF979797),
+            backgroundColor:const Color(0xFF0B5B42),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
@@ -50,7 +42,7 @@ class _SetupCompleteButtonState extends State<SetupCompleteButton> {
             children: [
               SizedBox(height: 11),
               Text(
-                '설정완료',
+                '알림설정완료',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,

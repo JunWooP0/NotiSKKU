@@ -184,12 +184,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref
-                                      .read(starredProvider.notifier)
-                                      .toggleUrl(notice.url);
-                                  ref
-                                      .read(starredProvider.notifier)
-                                      .toggleUrl(notice.url);
+                                  ref.read(starredProvider.notifier).toggleNotice(notice);
                                 });
                               },
                               child: Image.asset(
