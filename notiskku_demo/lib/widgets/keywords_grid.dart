@@ -68,6 +68,7 @@ class _KeywordsGridState extends State<KeywordsGrid> {
       _isDoNotSelect = !_isDoNotSelect;
       if (_isDoNotSelect) {
         selectedKeywords.clear(); // Clear any selected keywords
+        selectedKeywords.add('없음');
       }
       widget.onselectedKeywordChanged(selectedKeywords);
       saveSelectedKeywordsToPrefs();

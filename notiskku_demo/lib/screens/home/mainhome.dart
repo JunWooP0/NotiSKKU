@@ -5,7 +5,6 @@ import 'package:notiskku_demo/tabs//third_page.dart'; // 분리된 세 번째 �
 import 'package:notiskku_demo/tabs//fourth_page.dart'; // 분리된 네 번째 페이지
 import 'package:notiskku_demo/tabs//fifth_page.dart'; // 분리된 다섯 번째 페이지
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -61,23 +60,38 @@ class _MainHomePageState extends State<MainHomePage> {
           backgroundColor: Colors.white,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/images/notice.png')), // 이미지로 아이콘을 표시
+              icon: ImageIcon(
+                AssetImage('assets/images/notice_fix.png'),
+                size: 30,
+              ), // 이미지로 아이콘을 표시
               label: '공지사항',
             ),
             BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/images/keyword.png')), // 두 번째 아이콘
+              icon: ImageIcon(
+                AssetImage('assets/images/keyword_fix.png'),
+                size: 30,
+              ), // 두 번째 아이콘
               label: '키워드',
             ),
             BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/images/bogwan.png')), // 세 번째 아이콘
+              icon: ImageIcon(
+                AssetImage('assets/images/bogwan_fix.png'),
+                size: 30,
+              ), // 세 번째 아이콘
               label: '공지함',
             ),
             BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/images/calendar.png')), // 네 번째 아이콘
+              icon: ImageIcon(
+                AssetImage('assets/images/calendar_fix.png'),
+                size: 30,
+              ), // 네 번째 아이콘
               label: '학사일정',
             ),
             BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/images/more.png')), // 다섯 번째 아이콘
+              icon: ImageIcon(
+                AssetImage('assets/images/more_fix.png'),
+                size: 30,
+              ), // 다섯 번째 아이콘
               label: '더보기',
             ),
           ],

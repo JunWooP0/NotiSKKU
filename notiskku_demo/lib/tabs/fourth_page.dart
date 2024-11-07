@@ -11,7 +11,7 @@ class FourthPage extends StatelessWidget {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
+          child: Image.asset('assets/images/greenlogo_fix.png', width: 40),
         ),
         title: const Text(
           '학사일정',
@@ -31,8 +31,14 @@ class FourthPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/to_be_implemented.png'),
-                  const SizedBox(height: 20,),
+                  Image.asset(
+                    'assets/images/to_be_implemented_fix.png',
+                    width: 100, // 원하는 너비 설정
+                    height: 100, // 원하는 높이 설정
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const Text(
                     '서비스 준비 중입니다',
                     style: TextStyle(

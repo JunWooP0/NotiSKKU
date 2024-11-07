@@ -28,7 +28,7 @@ class _ThirdPageState extends ConsumerState<ThirdPage> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
+          child: Image.asset('assets/images/greenlogo_fix.png', width: 40),
         ),
         title: const Text(
           '공지보관함',

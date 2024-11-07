@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/models/notice.dart';
 import 'package:notiskku_demo/notice_functions/launch_url.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notiskku_demo/providers/starred_provider.dart';
+import 'package:notiskku_demo/screens/edit_keyword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:notiskku_demo/notice_functions/fetch_notice.dart';
 
@@ -53,7 +53,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo.png', width: 40),
+          child: Image.asset('assets/images/greenlogo_fix.png', width: 40),
         ),
         title: const Text(
           '키워드',
@@ -74,21 +74,16 @@ class _SecondPageState extends ConsumerState<SecondPage> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      '키워드별 보기',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          isEditing = !isEditing; // 편집 상태 전환
-                        });
+                        Navigator.push(
+                          context,
+                          //MaterialPageRoute(builder: (context) => const StartScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const EditKeyword()),
+                        );
                       },
                       child: const Text(
                         '편집',
@@ -108,7 +103,12 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: List.generate(categories.length, (index) {
+                          children: List.generate(
+                              categories
+                                  .where(
+                                      (category) => category != '없음') // '없음' 제외
+                                  .toList()
+                                  .length, (index) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: GestureDetector(
@@ -167,9 +167,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred =
-                          ref.watch(starredProvider).contains(notice.url);
-;
+                      final isStarred = ref.watch(starredProvider);
 
                       return Column(
                         children: [
@@ -184,13 +182,15 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleNotice(notice);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleNotice(notice);
                                 });
                               },
                               child: Image.asset(
-                                isStarred
-                                    ? 'assets/images/fullstar.png'
-                                    : 'assets/images/emptystar.png',
+                                isStarred.any((n) => n.url == notice.url)
+                                    ? 'assets/images/fullstar_fix.png'
+                                    : 'assets/images/emptystar_fix.png',
                                 width: 26,
                                 height: 26,
                               ),
