@@ -69,7 +69,7 @@ class _SearchMajorState extends State<SearchMajor> {
           ),
           const SizedBox(width: 5,),
           const Icon(
-            Icons.search,
+            Icons.search, 
             size: 37,
             color: Color(0xFF0B5B42),
           ),
