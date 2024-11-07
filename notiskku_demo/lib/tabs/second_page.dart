@@ -162,8 +162,8 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                     itemCount: notices.length,
                     itemBuilder: (context, index) {
                       final notice = notices[index];
-                      final isStarred =
-                          ref.watch(starredProvider).contains(notice.url);
+                      final isStarred = ref.watch(starredProvider);
+
                       return Column(
                         children: [
                           ListTile(
@@ -181,13 +181,11 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                 });
                               },
                               child: Image.asset(
-                                ref
-                                        .watch(starredProvider)
-                                        .contains(notice.url) // 상태를 바탕으로 별표 표시
+                                isStarred.any((n) => n.url == notice.url)
                                     ? 'assets/images/fullstar_fix.png'
                                     : 'assets/images/emptystar_fix.png',
-                                width: 24,
-                                height: 24,
+                                width: 26,
+                                height: 26,
                               ),
                             ),
                             onTap: () async {
