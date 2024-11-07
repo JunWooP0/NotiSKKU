@@ -1,6 +1,6 @@
 enum Defined {
   user,
-  devleoper,
+  developer,
 }
 
 class Keyword {

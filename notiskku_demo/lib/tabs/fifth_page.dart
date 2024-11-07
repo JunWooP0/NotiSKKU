@@ -147,9 +147,10 @@ class FifthPage extends StatelessWidget {
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-          content: Container(
-            width: double.maxFinite,
-            height: 320, // 팝업창의 세로 길이 조정
+            content: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.65, // 65% of screen height
+              ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

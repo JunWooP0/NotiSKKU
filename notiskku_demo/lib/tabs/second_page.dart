@@ -176,9 +176,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                                 Text('${notice.date} | 조회수: ${notice.views}'),
                             trailing: GestureDetector(
                               onTap: () {
-                                ref
-                                    .read(starredProvider.notifier)
-                                    .toggleUrl(notice.url); // 한 번만 호출
+                                setState(() {
+                                  ref.read(starredProvider.notifier).toggleNotice(notice);
+                                });
                               },
                               child: Image.asset(
                                 ref
