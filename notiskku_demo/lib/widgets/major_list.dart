@@ -1,11 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/data/major_data.dart';
+import 'package:notiskku_demo/services/preference_services.dart';
 import 'package:notiskku_demo/widgets/search_major.dart';
 
 class MajorList extends StatefulWidget {
   const MajorList({
-    super.key,
+    super.key, 
     required this.selectedMajor,
     required this.onSelectedMajorChanged,
   });
@@ -20,6 +20,28 @@ class MajorList extends StatefulWidget {
 class _MajorListState extends State<MajorList> {
   String searchText = '';
   List<String> majors = major.map((major) => major.major).toList();
+
+  @override
+  void initState() {
+    super.initState();
+    loadSelectedMajors(); // 전공 목록 불러오기
+  }
+
+  // 저장된 전공 목록 불러오는 메서드
+  Future<void> loadSelectedMajors() async {
+    List<String>? loadedMajors = await getSelectedMajors();
+    if (loadedMajors != null) {
+      setState(() {
+        widget.selectedMajor.clear(); // 기존 선택된 전공 목록 초기화
+        widget.selectedMajor.addAll(loadedMajors); // 불러온 전공 목록 추가
+      });
+    }
+  }
+
+  // 전공 목록을 저장하는 메서드
+  Future<void> saveSelectedMajorsToPrefs() async {
+    await saveSelectedMajors(widget.selectedMajor);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +59,7 @@ class _MajorListState extends State<MajorList> {
             });
           },
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(height: 10),
         Expanded(
           child: ListView.builder(
             itemCount: majors.length,
@@ -97,14 +119,9 @@ class _MajorListState extends State<MajorList> {
                       );
                     }
                     widget.onSelectedMajorChanged(widget.selectedMajor);
+                    saveSelectedMajorsToPrefs(); // 전공 목록 저장
                   });
                 },
-                // child: Padding(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 35,
-                //     vertical: 1,
-                //   ),
-                  
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.075), 
                     padding: const EdgeInsets.symmetric(

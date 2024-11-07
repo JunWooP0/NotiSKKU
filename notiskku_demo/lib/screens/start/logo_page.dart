@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notiskku_demo/screens/start/IntroductionScreen.dart';
+import 'package:notiskku_demo/screens/start/refactored_introScreen.dart';
 
 class LogoPage extends StatefulWidget {
   const LogoPage({super.key});
@@ -16,33 +17,37 @@ class _LogoPageState extends State<LogoPage> {
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const IntroductionScreen()),
+        // MaterialPageRoute(builder: (context) => const IntroductionScreen()),
+        MaterialPageRoute(builder: (context) => const ReIntroductionScreen()),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    
     return Scaffold(
       backgroundColor: const Color(0xff0b5b42),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 400,
-                height: 200,
-                fit: BoxFit.contain,
-              ),
+            Image.asset(
+              //'assets/images/logo.png',
+              'assets/images/whitelogo_fix.png',
+              width: screenWidth * 0.8, // Set width as 80% of screen width
+              height: screenHeight * 0.25, // Set height as 25% of screen height
+              fit: BoxFit.contain,
             ),
             const SizedBox(height: 10), // 간격 추가
-            const Text(
+
+            Text(
               'NotiSKKU',
               style: TextStyle(
-                fontSize: 60,
+                fontSize: screenWidth * 0.15, // Font size as 15% of screen width
                 color: Colors.white,
                 fontWeight: FontWeight.normal,
               ),
