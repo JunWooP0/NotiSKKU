@@ -72,4 +72,3 @@ Future <List<String>?> getSavedSearch() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getStringList('savedSearch');
 }
- 
