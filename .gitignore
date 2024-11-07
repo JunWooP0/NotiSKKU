@@ -1,2 +1,5 @@
 /backend
 /venv
+/.vscode
+
+.DS_Store
