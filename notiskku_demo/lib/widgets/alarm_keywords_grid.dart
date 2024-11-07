@@ -6,17 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AlarmKeywordsGrid extends StatefulWidget {
   const AlarmKeywordsGrid({
-    super.key, 
+    super.key,
     required this.alarmKeyword,
     required this.onAlarmKeywordChanged,
-
   });
-
 
   final List<String> alarmKeyword;
   final Function(List<String>) onAlarmKeywordChanged;
-
-  
 
   @override
   State<StatefulWidget> createState() {
@@ -33,21 +29,22 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
     super.initState();
     loadAlarmKeywords();
     _loadKeywords();
-
   }
 
   Future<void> _loadKeywords() async {
     final prefs = await SharedPreferences.getInstance();
-    
+
     // Retrieve the list of selected keywords from SharedPreferences.
-    final keywordStrings = prefs.getStringList('selectedKeywords') ?? ['Default Keyword'];
+    final keywordStrings =
+        prefs.getStringList('selectedKeywords') ?? ['Default Keyword'];
 
     setState(() {
       // Map each string in keywordStrings to a Keyword object
       filteredKeywords = keywordStrings
           .map((k) => Keyword(
                 keyword: k,
-                defined: _getDefinedValue(k), // Assigning Defined enum based on the keyword
+                defined: _getDefinedValue(
+                    k), // Assigning Defined enum based on the keyword
               ))
           .toList();
     });
@@ -66,7 +63,6 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
     }
   }
 
-
   // Method to load saved alarm keywords
   Future<void> loadAlarmKeywords() async {
     List<String>? loadedAlarmKeywords = await getAlarmKeywords();
@@ -82,7 +78,6 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
   Future<void> saveAlarmKeywordsToPrefs() async {
     await saveAlarmKeywords(alarmKeywords);
   }
-
 
   // Toggle alarm selection for keywords
   void _toggleAlarmKeyword(BuildContext context, Keyword keyword) {
@@ -104,9 +99,6 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
     final buttonWidth = (screenWidth - 80) / 3;
     final buttonHeight = buttonWidth * (37 / 86);
 
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -123,7 +115,11 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
               itemCount: filteredKeywords.length,
               itemBuilder: (context, index) {
                 final keywordObj = filteredKeywords[index];
-                bool isAlarmSelected = alarmKeywords.contains(keywordObj.keyword);
+                if (keywordObj.keyword == '없음') {
+                  return SizedBox.shrink(); // 아무것도 출력하지 않음
+                }
+                bool isAlarmSelected =
+                    alarmKeywords.contains(keywordObj.keyword);
                 return GestureDetector(
                   onTap: () => _toggleAlarmKeyword(context, keywordObj),
                   child: Container(
@@ -131,7 +127,9 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
                     height: buttonHeight,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isAlarmSelected ? const Color(0xB20B5B42) : const Color(0x99D9D9D9),
+                      color: isAlarmSelected
+                          ? const Color(0xB20B5B42)
+                          : const Color(0x99D9D9D9),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Center(
@@ -139,7 +137,9 @@ class _AlarmKeywordsGridState extends State<AlarmKeywordsGrid> {
                         keywordObj.keyword,
                         style: TextStyle(
                           fontSize: buttonWidth * 0.16,
-                          color: isAlarmSelected ? const Color(0xFFFFFFFF) : const Color(0xFF979797),
+                          color: isAlarmSelected
+                              ? const Color(0xFFFFFFFF)
+                              : const Color(0xFF979797),
                           fontWeight: FontWeight.w700,
                         ),
                       ),

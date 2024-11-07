@@ -108,7 +108,12 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: List.generate(categories.length, (index) {
+                          children: List.generate(
+                              categories
+                                  .where(
+                                      (category) => category != '없음') // '없음' 제외
+                                  .toList()
+                                  .length, (index) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: GestureDetector(
@@ -169,7 +174,7 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                       final notice = notices[index];
                       final isStarred =
                           ref.watch(starredProvider).contains(notice.url);
-;
+                      ;
 
                       return Column(
                         children: [
@@ -184,7 +189,9 @@ class _SecondPageState extends ConsumerState<SecondPage> {
                             trailing: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  ref.read(starredProvider.notifier).toggleNotice(notice);
+                                  ref
+                                      .read(starredProvider.notifier)
+                                      .toggleNotice(notice);
                                 });
                               },
                               child: Image.asset(
